@@ -18,6 +18,7 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.rapidpro.surveyor.R;
+import io.rapidpro.surveyor.extend.StaticMethods;
 import io.rapidpro.surveyor.extend.entity.local.StoriesLocal;
 import me.myatminsoe.mdetect.MDetect;
 import me.myatminsoe.mdetect.Rabbit;
@@ -70,18 +71,7 @@ public class CustomAdapterStories extends RecyclerView.Adapter<CustomAdapterStor
             }
         }else if(lang_code.equals("my")){
 
-            if (MDetect.INSTANCE.isUnicode()){
-                holder.storyTitle.setText(stories.get(position).getTitle_my());
-                if(stories.get(position).getSubtitle_my() != null){
-                    holder.storyBody.setText(stories.get(position).getSubtitle_my());
-                }else{
-                    String x = stories.get(position).getBody_my();
-                    if(x.length() > 200){
-                        x = x.substring(0, 200) + "...";
-                    }
-                    holder.storyBody.setText(x);
-                }
-            } else {
+            if (!MDetect.INSTANCE.isUnicode() && !StaticMethods.disableZawgyi()){
                 // Convert to Zawgyi
                 holder.storyTitle.setText(Rabbit.uni2zg(stories.get(position).getTitle_my()));
                 if(stories.get(position).getSubtitle_my() != null){
@@ -92,6 +82,18 @@ public class CustomAdapterStories extends RecyclerView.Adapter<CustomAdapterStor
                         x = x.substring(0, 200) + "...";
                     }
                     holder.storyBody.setText(Rabbit.uni2zg(x));
+                }
+
+            } else {
+                holder.storyTitle.setText(stories.get(position).getTitle_my());
+                if(stories.get(position).getSubtitle_my() != null){
+                    holder.storyBody.setText(stories.get(position).getSubtitle_my());
+                }else{
+                    String x = stories.get(position).getBody_my();
+                    if(x.length() > 200){
+                        x = x.substring(0, 200) + "...";
+                    }
+                    holder.storyBody.setText(x);
                 }
             }
 

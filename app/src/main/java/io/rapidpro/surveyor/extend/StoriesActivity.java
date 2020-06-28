@@ -169,7 +169,7 @@ public class StoriesActivity extends BaseActivity {
         WebContent = WebContent.replace("#DateData", storyDate.getText().toString());
         WebContent = WebContent.replace("#ImageFile", imagePath);
 
-        if(lang_code.equals("my") && !MDetect.INSTANCE.isUnicode()){
+        if(lang_code.equals("my") && !MDetect.INSTANCE.isUnicode() && !StaticMethods.disableZawgyi()){
             // Place Zawgyi
             String burmese_title = Rabbit.uni2zg(storiesLocal.getTitle_my());
             String burmese_body = Rabbit.uni2zg(storiesLocal.getSubtitle_my() + "<br>" +storiesLocal.getBody_my().replace("\r\n", "<br>"));
@@ -185,7 +185,7 @@ public class StoriesActivity extends BaseActivity {
             String burmese_title = storiesLocal.getTitle_my();
             String burmese_body = storiesLocal.getSubtitle_my() + "<br>" +storiesLocal.getBody_my().replace("\r\n", "<br>");
 
-            if (!MDetect.INSTANCE.isUnicode()){
+            if (!MDetect.INSTANCE.isUnicode() && !StaticMethods.disableZawgyi()){
                 burmese_title = Rabbit.uni2zg(burmese_title);
                 burmese_body = Rabbit.uni2zg(burmese_body);
             }

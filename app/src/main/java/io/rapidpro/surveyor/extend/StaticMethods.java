@@ -5,6 +5,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
@@ -135,6 +136,15 @@ public class StaticMethods {
 
     public static void logFirebase(String parameter_name, Bundle bundle){
         firebase.logEvent(parameter_name, bundle);
+    }
+
+    public static boolean disableZawgyi(){
+        // Check Device ID for Zawgyi issues
+        if(Build.MANUFACTURER.equals("HUAWEI") && Build.MODEL.equals("AGS-L09")){
+            return true;
+        }else{
+            return false;
+        }
     }
 
 }

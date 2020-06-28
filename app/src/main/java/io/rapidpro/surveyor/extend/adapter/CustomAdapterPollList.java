@@ -68,7 +68,7 @@ public class CustomAdapterPollList extends RecyclerView.Adapter<CustomAdapterPol
 
         String custom_data = mData.get(position);
         String lang_code = SurveyorApplication.get().getPreferences().getString(SurveyorPreferences.LANG_CODE, "en");
-        if(lang_code.equals("my") && !MDetect.INSTANCE.isUnicode()) {
+        if(lang_code.equals("my") && !MDetect.INSTANCE.isUnicode() && !StaticMethods.disableZawgyi()) {
             // Place Zawgyi
             custom_data = Rabbit.uni2zg(custom_data);
         }
