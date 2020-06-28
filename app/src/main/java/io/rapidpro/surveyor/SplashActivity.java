@@ -453,129 +453,129 @@ public class SplashActivity extends BaseActivity {
                         String new_last_updated = response.body().getLast_updated();
                         List<StoriesLocal> storiesLocals = response.body().getData();
 
-                        new Thread(() -> {
-                            for (StoriesLocal s : storiesLocals) {
-                                if (storiesDao.doesStoryExists(s.getId()) > 0) {
-                                    // Old Story: update
-                                    s.primaryKey = storiesDao.getStory_pKey(s.getId());
-                                    storiesDao.update(s);
-                                } else {
-                                    // New Story: insert
-                                    storiesDao.insert(s);
-                                }
+                        //new Thread(() -> {
+                        for (StoriesLocal s : storiesLocals) {
+                            if (storiesDao.doesStoryExists(s.getId()) > 0) {
+                                // Old Story: update
+                                s.primaryKey = storiesDao.getStory_pKey(s.getId());
+                                storiesDao.update(s);
+                            } else {
+                                // New Story: insert
+                                storiesDao.insert(s);
                             }
-                        }).start();
+                        }
+                        //}).start();
 
                         // Update Last Updated
                         getSurveyor().setPreference("story_date", new_last_updated);
 
-                        new Thread(() -> {
-                            // Download Images
-                            localStories = storiesDao.getStoriesList();
+                        //new Thread(() -> {
+                        // Download Images
+                        localStories = storiesDao.getStoriesList();
 
-                            for (StoriesLocal s : localStories) {
-                                // Download Story Image
-                                if (s.getContent_image() == null) {
-                                    continue;
-                                }
-                                if (s.getContent_image().equals("")) {
-                                    continue;
-                                }
-                                Context context = getApplicationContext();
-                                String imageURL = s.getContent_image();
+                        for (StoriesLocal s : localStories) {
+                            // Download Story Image
+                            if (s.getContent_image() == null) {
+                                continue;
+                            }
+                            if (s.getContent_image().equals("")) {
+                                continue;
+                            }
+                            Context context = getApplicationContext();
+                            String imageURL = s.getContent_image();
 
-                                if (imageURL.equals("")) {
-                                    continue;
-                                }
-
-                                final String file_path = "story_image_" + getMD5(imageURL);
-                                final String file_path_full = context.getFilesDir() + "/story_image_" + getMD5(imageURL);
-                                File file = new File(file_path_full);
-                                if (file.exists()) {
-                                    if (file.length() > 100 * 1024) {
-                                        // File with At Least 100 KB Data Exists: skip
-                                        continue;
-                                    }
-                                }
-
-                                is_content_loading = true;
-                                getURL(imageURL, new okhttp3.Callback() {
-                                    @Override
-                                    public void onResponse(okhttp3.Call call, okhttp3.Response response) throws IOException {
-                                        InputStream inputStream = response.body().byteStream();
-                                        try (OutputStream output = context.openFileOutput(file_path, context.MODE_PRIVATE)) {
-                                            byte[] buffer = new byte[4 * 1024]; // or other buffer size
-                                            int read;
-                                            while ((read = inputStream.read(buffer)) != -1) {
-                                                output.write(buffer, 0, read);
-                                            }
-                                            output.flush();
-                                        }
-                                        inputStream.close();
-                                        is_content_loading = false;
-                                    }
-
-                                    @Override
-                                    public void onFailure(okhttp3.Call call, IOException e) {
-                                        is_content_loading = false;
-                                    }
-                                });
-
+                            if (imageURL.equals("")) {
+                                continue;
                             }
 
-                            for (StoriesLocal s : localStories) {
-                                // Download Story Video
-                                if (s.getStory_video() == null) {
+                            final String file_path = "story_image_" + getMD5(imageURL);
+                            final String file_path_full = context.getFilesDir() + "/story_image_" + getMD5(imageURL);
+                            File file = new File(file_path_full);
+                            if (file.exists()) {
+                                if (file.length() > 100 * 1024) {
+                                    // File with At Least 100 KB Data Exists: skip
                                     continue;
                                 }
-                                if (s.getStory_video().equals("")) {
-                                    continue;
-                                }
-
-                                Context context = getApplicationContext();
-                                String videoURL = s.getStory_video();
-
-                                if (videoURL.equals("")) {
-                                    continue;
-                                }
-
-                                final String file_path = "story_video_" + getMD5(videoURL);
-                                String file_path_full = context.getFilesDir() + "/story_video_" + getMD5(videoURL);
-                                File file = new File(file_path_full);
-                                if (file.exists()) {
-                                    if (file.length() > 100 * 1024) {
-                                        // File with At Least 50 KB Data Exists: skip
-                                        continue;
-                                    }
-                                }
-
-                                is_content_loading = true;
-                                getURL(videoURL, new okhttp3.Callback() {
-
-                                    @Override
-                                    public void onResponse(okhttp3.Call call, okhttp3.Response response) throws IOException {
-                                        InputStream inputStream = response.body().byteStream();
-                                        try (OutputStream output = context.openFileOutput(file_path, context.MODE_PRIVATE)) {
-                                            byte[] buffer = new byte[4 * 1024]; // or other buffer size
-                                            int read;
-                                            while ((read = inputStream.read(buffer)) != -1) {
-                                                output.write(buffer, 0, read);
-                                            }
-                                            output.flush();
-                                        }
-                                        inputStream.close();
-                                        is_content_loading = false;
-                                    }
-
-                                    @Override
-                                    public void onFailure(okhttp3.Call call, IOException e) {
-                                        is_content_loading = false;
-                                    }
-
-                                });
-
                             }
-                        }).start();
+
+                            is_content_loading = true;
+                            getURL(imageURL, new okhttp3.Callback() {
+                                @Override
+                                public void onResponse(okhttp3.Call call, okhttp3.Response response) throws IOException {
+                                    InputStream inputStream = response.body().byteStream();
+                                    try (OutputStream output = context.openFileOutput(file_path, context.MODE_PRIVATE)) {
+                                        byte[] buffer = new byte[4 * 1024]; // or other buffer size
+                                        int read;
+                                        while ((read = inputStream.read(buffer)) != -1) {
+                                            output.write(buffer, 0, read);
+                                        }
+                                        output.flush();
+                                    }
+                                    inputStream.close();
+                                    is_content_loading = false;
+                                }
+
+                                @Override
+                                public void onFailure(okhttp3.Call call, IOException e) {
+                                    is_content_loading = false;
+                                }
+                            });
+
+                        }
+
+                        for (StoriesLocal s : localStories) {
+                            // Download Story Video
+                            if (s.getStory_video() == null) {
+                                continue;
+                            }
+                            if (s.getStory_video().equals("")) {
+                                continue;
+                            }
+
+                            Context context = getApplicationContext();
+                            String videoURL = s.getStory_video();
+
+                            if (videoURL.equals("")) {
+                                continue;
+                            }
+
+                            final String file_path = "story_video_" + getMD5(videoURL);
+                            String file_path_full = context.getFilesDir() + "/story_video_" + getMD5(videoURL);
+                            File file = new File(file_path_full);
+                            if (file.exists()) {
+                                if (file.length() > 100 * 1024) {
+                                    // File with At Least 50 KB Data Exists: skip
+                                    continue;
+                                }
+                            }
+
+                            is_content_loading = true;
+                            getURL(videoURL, new okhttp3.Callback() {
+
+                                @Override
+                                public void onResponse(okhttp3.Call call, okhttp3.Response response) throws IOException {
+                                    InputStream inputStream = response.body().byteStream();
+                                    try (OutputStream output = context.openFileOutput(file_path, context.MODE_PRIVATE)) {
+                                        byte[] buffer = new byte[4 * 1024]; // or other buffer size
+                                        int read;
+                                        while ((read = inputStream.read(buffer)) != -1) {
+                                            output.write(buffer, 0, read);
+                                        }
+                                        output.flush();
+                                    }
+                                    inputStream.close();
+                                    is_content_loading = false;
+                                }
+
+                                @Override
+                                public void onFailure(okhttp3.Call call, IOException e) {
+                                    is_content_loading = false;
+                                }
+
+                            });
+
+                        }
+                        //}).start();
 
                     }
                 }
@@ -616,12 +616,12 @@ public class SplashActivity extends BaseActivity {
 
                     for(story_delete_data deleted: deleted_stories) {
 
-                        new Thread(() -> {
-                            if(storiesDao.doesStoryExists(deleted.getStory_id()) > 0){
-                                // Story Deleted on Server
-                                storiesDao.deleteFromStoryById(deleted.getStory_id());
-                            }
-                        }).start();
+                        //new Thread(() -> {
+                        if(storiesDao.doesStoryExists(deleted.getStory_id()) > 0){
+                            // Story Deleted on Server
+                            storiesDao.deleteFromStoryById(deleted.getStory_id());
+                        }
+                        //}).start();
                     }
 
                     // Update Story Delete Last_Update
@@ -780,16 +780,16 @@ public class SplashActivity extends BaseActivity {
 
                     for(UReportLocal x: ureports){
 
-                        new Thread(() -> {
-                            if (uReportDao.doesUReportExists(x.getUreport_id()) > 0) {
-                                // Old UReport: update
-                                x.primaryKey = uReportDao.getUreport_pKey(x.getUreport_id());
-                                uReportDao.update(x);
-                            } else {
-                                // New UReport: insert
-                                uReportDao.insert(x);
-                            }
-                        }).start();
+                        //new Thread(() -> {
+                        if (uReportDao.doesUReportExists(x.getUreport_id()) > 0) {
+                            // Old UReport: update
+                            x.primaryKey = uReportDao.getUreport_pKey(x.getUreport_id());
+                            uReportDao.update(x);
+                        } else {
+                            // New UReport: insert
+                            uReportDao.insert(x);
+                        }
+                        //}).start();
 
                     }
 
@@ -845,16 +845,16 @@ public class SplashActivity extends BaseActivity {
 
                     for(SurveyorLocal x: surveyorLocals){
 
-                        new Thread(() -> {
-                            if (surveyorDao.doesSurveyExists(x.getFlow_id()) > 0) {
-                                // Old UReport: update
-                                x.primaryKey = surveyorDao.getSurvey_pKey(x.getFlow_id());
-                                surveyorDao.update(x);
-                            } else {
-                                // New UReport: insert
-                                surveyorDao.insert(x);
-                            }
-                        }).start();
+                        //new Thread(() -> {
+                        if (surveyorDao.doesSurveyExists(x.getFlow_id()) > 0) {
+                            // Old UReport: update
+                            x.primaryKey = surveyorDao.getSurvey_pKey(x.getFlow_id());
+                            surveyorDao.update(x);
+                        } else {
+                            // New UReport: insert
+                            surveyorDao.insert(x);
+                        }
+                        //}).start();
 
                     }
 
