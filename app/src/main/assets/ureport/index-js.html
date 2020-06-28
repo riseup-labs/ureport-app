@@ -1,0 +1,954 @@
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="file:///android_asset/ureport/css/w3.css">
+	<link rel="stylesheet" type="text/css" href="file:///android_asset/ureport/css/main.css">
+<style>
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  line-height: 1.2;
+}
+.answer_box {
+  margin-top: -4px;
+  margin-bottom: -5px;
+}
+.answer_text {
+  margin-top: 20px;
+  position: absolute;
+  margin-left: 4px;
+  color: black;
+}
+.answer_bar {
+  height: 20px;
+  width: 85%;
+}
+.answer_tag {
+  margin-top: 11px;
+  position: absolute;
+}
+.answer_percent {
+  font-size: 14px;
+  position: absolute;
+  padding-left: 8px;
+  padding-top: 1px;
+}
+.answer_bar_fill {
+  padding: 0px;
+  color: #fff;
+  display: list-item;
+  padding: 0px; 
+  height: 21px;
+}
+.state_button {
+  background: rgb(212, 212, 212);
+  color: rgb(0, 110, 0);
+  height: 24px;
+  border: 0px;
+  margin-left: -5px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.active_button {
+  background: rgb(0, 110, 0);
+  color: white;
+}
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+  margin: 8px;
+  padding: 2 8 16 8;
+}
+.button_container {
+  text-align: center;
+}
+hr {
+  border: 0.5px solid rgb(210, 210, 210);
+  margin: 4px;
+}
+
+</style>
+</head>
+<body>
+
+<div id="data_pack" style="display: none;">{
+  "id": 0,
+  "flow_uuid": "65d2efef-1922-4da7-bd62-813e451048f7",
+  "title": "Social Hub - Test",
+  "org": 0,
+  "poll_date": "1588335308",
+  "created_on": "1588335308",
+  "category": {
+    "image_url": "",
+    "name": "Offline Survey"
+  },
+  "questions": [
+    {
+      "title": "Do you think COVID-19 is a risk for your community?",
+      "results": {
+        "categories": [
+          {
+            "label": "Yes",
+            "count": 8
+          },
+          {
+            "label": "No",
+            "count": 7
+          }
+        ],
+        "name": "is_risk",
+        "node": "0bfd72d1-764a-487a-a977-584b2b97c748",
+        "set": 15,
+        "unset": 0,
+        "oepn_ended": false
+      },
+      "results_by_gender": [
+        {
+          "categories": [
+            {
+              "label": "Yes",
+              "count": 7
+            },
+            {
+              "label": "No",
+              "count": 5
+            }
+          ],
+          "name": "is_risk",
+          "node": "0bfd72d1-764a-487a-a977-584b2b97c748",
+          "set": 12,
+          "unset": 0,
+          "oepn_ended": false,
+          "label": "Male"
+        },
+        {
+          "categories": [
+            {
+              "label": "Yes",
+              "count": 1
+            },
+            {
+              "label": "No",
+              "count": 2
+            }
+          ],
+          "name": "is_risk",
+          "node": "0bfd72d1-764a-487a-a977-584b2b97c748",
+          "set": 3,
+          "unset": 0,
+          "oepn_ended": false,
+          "label": "Female"
+        }
+      ],
+      "results_by_hub": [
+        {
+          "categories": [
+            {
+              "label": "Yes",
+              "count": 4
+            },
+            {
+              "label": "No",
+              "count": 2
+            }
+          ],
+          "name": "is_risk",
+          "node": "0bfd72d1-764a-487a-a977-584b2b97c748",
+          "set": 6,
+          "unset": 0,
+          "oepn_ended": false,
+          "label": "Burmapara"
+        },
+        {
+          "categories": [
+            {
+              "label": "Yes",
+              "count": 0
+            },
+            {
+              "label": "No",
+              "count": 1
+            }
+          ],
+          "name": "is_risk",
+          "node": "0bfd72d1-764a-487a-a977-584b2b97c748",
+          "set": 1,
+          "unset": 0,
+          "oepn_ended": false,
+          "label": "Jadimora"
+        },
+        {
+          "categories": [
+            {
+              "label": "Yes",
+              "count": 2
+            },
+            {
+              "label": "No",
+              "count": 1
+            }
+          ],
+          "name": "is_risk",
+          "node": "0bfd72d1-764a-487a-a977-584b2b97c748",
+          "set": 3,
+          "unset": 0,
+          "oepn_ended": false,
+          "label": "Jamtoli"
+        },
+        {
+          "categories": [
+            {
+              "label": "Yes",
+              "count": 2
+            },
+            {
+              "label": "No",
+              "count": 1
+            }
+          ],
+          "name": "is_risk",
+          "node": "0bfd72d1-764a-487a-a977-584b2b97c748",
+          "set": 3,
+          "unset": 0,
+          "oepn_ended": false,
+          "label": "Ledda"
+        },
+        {
+          "categories": [
+            {
+              "label": "Yes",
+              "count": 0
+            },
+            {
+              "label": "No",
+              "count": 2
+            }
+          ],
+          "name": "is_risk",
+          "node": "0bfd72d1-764a-487a-a977-584b2b97c748",
+          "set": 2,
+          "unset": 0,
+          "oepn_ended": false,
+          "label": "Shamlapur"
+        }
+      ],
+      "ruleset_uuid": "1fa24a4f-7fab-4a71-96c0-bf0e55c09a53"
+    },
+    {
+      "title": "Do you know that people of all ages can get infected with COVID-19?",
+      "results": {
+        "categories": [
+          {
+            "label": "Yes",
+            "count": 6
+          },
+          {
+            "label": "No",
+            "count": 6
+          },
+          {
+            "label": "I Don't Know",
+            "count": 3
+          }
+        ],
+        "name": "can_infect_all_age",
+        "node": "b8fd34c9-8a6d-4595-9b0a-2fc703b886ff",
+        "set": 15,
+        "unset": 0,
+        "oepn_ended": false
+      },
+      "results_by_gender": [
+        {
+          "categories": [
+            {
+              "label": "Yes",
+              "count": 5
+            },
+            {
+              "label": "No",
+              "count": 4
+            },
+            {
+              "label": "I Don't Know",
+              "count": 3
+            }
+          ],
+          "name": "can_infect_all_age",
+          "node": "b8fd34c9-8a6d-4595-9b0a-2fc703b886ff",
+          "set": 12,
+          "unset": 0,
+          "oepn_ended": false,
+          "label": "Male"
+        },
+        {
+          "categories": [
+            {
+              "label": "Yes",
+              "count": 1
+            },
+            {
+              "label": "No",
+              "count": 2
+            },
+            {
+              "label": "I Don't Know",
+              "count": 0
+            }
+          ],
+          "name": "can_infect_all_age",
+          "node": "b8fd34c9-8a6d-4595-9b0a-2fc703b886ff",
+          "set": 3,
+          "unset": 0,
+          "oepn_ended": false,
+          "label": "Female"
+        }
+      ],
+      "results_by_hub": [
+        {
+          "categories": [
+            {
+              "label": "Yes",
+              "count": 2
+            },
+            {
+              "label": "No",
+              "count": 3
+            },
+            {
+              "label": "I Don't Know",
+              "count": 1
+            }
+          ],
+          "name": "can_infect_all_age",
+          "node": "b8fd34c9-8a6d-4595-9b0a-2fc703b886ff",
+          "set": 6,
+          "unset": 0,
+          "oepn_ended": false,
+          "label": "Burmapara"
+        },
+        {
+          "categories": [
+            {
+              "label": "Yes",
+              "count": 0
+            },
+            {
+              "label": "No",
+              "count": 1
+            },
+            {
+              "label": "I Don't Know",
+              "count": 0
+            }
+          ],
+          "name": "can_infect_all_age",
+          "node": "b8fd34c9-8a6d-4595-9b0a-2fc703b886ff",
+          "set": 1,
+          "unset": 0,
+          "oepn_ended": false,
+          "label": "Jadimora"
+        },
+        {
+          "categories": [
+            {
+              "label": "Yes",
+              "count": 2
+            },
+            {
+              "label": "No",
+              "count": 0
+            },
+            {
+              "label": "I Don't Know",
+              "count": 1
+            }
+          ],
+          "name": "can_infect_all_age",
+          "node": "b8fd34c9-8a6d-4595-9b0a-2fc703b886ff",
+          "set": 3,
+          "unset": 0,
+          "oepn_ended": false,
+          "label": "Jamtoli"
+        },
+        {
+          "categories": [
+            {
+              "label": "Yes",
+              "count": 2
+            },
+            {
+              "label": "No",
+              "count": 1
+            },
+            {
+              "label": "I Don't Know",
+              "count": 0
+            }
+          ],
+          "name": "can_infect_all_age",
+          "node": "b8fd34c9-8a6d-4595-9b0a-2fc703b886ff",
+          "set": 3,
+          "unset": 0,
+          "oepn_ended": false,
+          "label": "Ledda"
+        },
+        {
+          "categories": [
+            {
+              "label": "Yes",
+              "count": 0
+            },
+            {
+              "label": "No",
+              "count": 1
+            },
+            {
+              "label": "I Don't Know",
+              "count": 1
+            }
+          ],
+          "name": "can_infect_all_age",
+          "node": "b8fd34c9-8a6d-4595-9b0a-2fc703b886ff",
+          "set": 2,
+          "unset": 0,
+          "oepn_ended": false,
+          "label": "Shamlapur"
+        }
+      ],
+      "ruleset_uuid": "6e689c7a-69c4-4cac-b00d-b7c2432b2409"
+    },
+    {
+      "title": "Do you know that social distancing is the best way to prevent COVID-19?",
+      "results": {
+        "categories": [
+          {
+            "label": "Yes",
+            "count": 6
+          },
+          {
+            "label": "No",
+            "count": 7
+          },
+          {
+            "label": "I Don't Know",
+            "count": 2
+          }
+        ],
+        "name": "social_distancing",
+        "node": "7d9ca1b5-2c4a-4a03-8264-c53ff3e66304",
+        "set": 15,
+        "unset": 0,
+        "oepn_ended": false
+      },
+      "results_by_gender": [
+        {
+          "categories": [
+            {
+              "label": "Yes",
+              "count": 5
+            },
+            {
+              "label": "No",
+              "count": 6
+            },
+            {
+              "label": "I Don't Know",
+              "count": 1
+            }
+          ],
+          "name": "social_distancing",
+          "node": "7d9ca1b5-2c4a-4a03-8264-c53ff3e66304",
+          "set": 12,
+          "unset": 0,
+          "oepn_ended": false,
+          "label": "Male"
+        },
+        {
+          "categories": [
+            {
+              "label": "Yes",
+              "count": 1
+            },
+            {
+              "label": "No",
+              "count": 1
+            },
+            {
+              "label": "I Don't Know",
+              "count": 1
+            }
+          ],
+          "name": "social_distancing",
+          "node": "7d9ca1b5-2c4a-4a03-8264-c53ff3e66304",
+          "set": 3,
+          "unset": 0,
+          "oepn_ended": false,
+          "label": "Female"
+        }
+      ],
+      "results_by_hub": [
+        {
+          "categories": [
+            {
+              "label": "Yes",
+              "count": 3
+            },
+            {
+              "label": "No",
+              "count": 1
+            },
+            {
+              "label": "I Don't Know",
+              "count": 2
+            }
+          ],
+          "name": "social_distancing",
+          "node": "7d9ca1b5-2c4a-4a03-8264-c53ff3e66304",
+          "set": 6,
+          "unset": 0,
+          "oepn_ended": false,
+          "label": "Burmapara"
+        },
+        {
+          "categories": [
+            {
+              "label": "Yes",
+              "count": 1
+            },
+            {
+              "label": "No",
+              "count": 0
+            },
+            {
+              "label": "I Don't Know",
+              "count": 0
+            }
+          ],
+          "name": "social_distancing",
+          "node": "7d9ca1b5-2c4a-4a03-8264-c53ff3e66304",
+          "set": 1,
+          "unset": 0,
+          "oepn_ended": false,
+          "label": "Jadimora"
+        },
+        {
+          "categories": [
+            {
+              "label": "Yes",
+              "count": 0
+            },
+            {
+              "label": "No",
+              "count": 3
+            },
+            {
+              "label": "I Don't Know",
+              "count": 0
+            }
+          ],
+          "name": "social_distancing",
+          "node": "7d9ca1b5-2c4a-4a03-8264-c53ff3e66304",
+          "set": 3,
+          "unset": 0,
+          "oepn_ended": false,
+          "label": "Jamtoli"
+        },
+        {
+          "categories": [
+            {
+              "label": "Yes",
+              "count": 1
+            },
+            {
+              "label": "No",
+              "count": 2
+            },
+            {
+              "label": "I Don't Know",
+              "count": 0
+            }
+          ],
+          "name": "social_distancing",
+          "node": "7d9ca1b5-2c4a-4a03-8264-c53ff3e66304",
+          "set": 3,
+          "unset": 0,
+          "oepn_ended": false,
+          "label": "Ledda"
+        },
+        {
+          "categories": [
+            {
+              "label": "Yes",
+              "count": 1
+            },
+            {
+              "label": "No",
+              "count": 1
+            },
+            {
+              "label": "I Don't Know",
+              "count": 0
+            }
+          ],
+          "name": "social_distancing",
+          "node": "7d9ca1b5-2c4a-4a03-8264-c53ff3e66304",
+          "set": 2,
+          "unset": 0,
+          "oepn_ended": false,
+          "label": "Shamlapur"
+        }
+      ],
+      "ruleset_uuid": "905d522b-a222-4a38-a13b-0ea9a4330590"
+    },
+    {
+      "title": "During this emergency situation are you following the rules & staying home?",
+      "results": {
+        "categories": [
+          {
+            "label": "Yes",
+            "count": 9
+          },
+          {
+            "label": "No",
+            "count": 6
+          }
+        ],
+        "name": "staying_home",
+        "node": "6ecf9c8e-052f-4e49-93eb-430fce0d98f0",
+        "set": 15,
+        "unset": 0,
+        "oepn_ended": false
+      },
+      "results_by_gender": [
+        {
+          "categories": [
+            {
+              "label": "Yes",
+              "count": 8
+            },
+            {
+              "label": "No",
+              "count": 4
+            }
+          ],
+          "name": "staying_home",
+          "node": "6ecf9c8e-052f-4e49-93eb-430fce0d98f0",
+          "set": 12,
+          "unset": 0,
+          "oepn_ended": false,
+          "label": "Male"
+        },
+        {
+          "categories": [
+            {
+              "label": "Yes",
+              "count": 1
+            },
+            {
+              "label": "No",
+              "count": 2
+            }
+          ],
+          "name": "staying_home",
+          "node": "6ecf9c8e-052f-4e49-93eb-430fce0d98f0",
+          "set": 3,
+          "unset": 0,
+          "oepn_ended": false,
+          "label": "Female"
+        }
+      ],
+      "results_by_hub": [
+        {
+          "categories": [
+            {
+              "label": "Yes",
+              "count": 3
+            },
+            {
+              "label": "No",
+              "count": 3
+            }
+          ],
+          "name": "staying_home",
+          "node": "6ecf9c8e-052f-4e49-93eb-430fce0d98f0",
+          "set": 6,
+          "unset": 0,
+          "oepn_ended": false,
+          "label": "Burmapara"
+        },
+        {
+          "categories": [
+            {
+              "label": "Yes",
+              "count": 1
+            },
+            {
+              "label": "No",
+              "count": 0
+            }
+          ],
+          "name": "staying_home",
+          "node": "6ecf9c8e-052f-4e49-93eb-430fce0d98f0",
+          "set": 1,
+          "unset": 0,
+          "oepn_ended": false,
+          "label": "Jadimora"
+        },
+        {
+          "categories": [
+            {
+              "label": "Yes",
+              "count": 2
+            },
+            {
+              "label": "No",
+              "count": 1
+            }
+          ],
+          "name": "staying_home",
+          "node": "6ecf9c8e-052f-4e49-93eb-430fce0d98f0",
+          "set": 3,
+          "unset": 0,
+          "oepn_ended": false,
+          "label": "Jamtoli"
+        },
+        {
+          "categories": [
+            {
+              "label": "Yes",
+              "count": 1
+            },
+            {
+              "label": "No",
+              "count": 2
+            }
+          ],
+          "name": "staying_home",
+          "node": "6ecf9c8e-052f-4e49-93eb-430fce0d98f0",
+          "set": 3,
+          "unset": 0,
+          "oepn_ended": false,
+          "label": "Ledda"
+        },
+        {
+          "categories": [
+            {
+              "label": "Yes",
+              "count": 2
+            },
+            {
+              "label": "No",
+              "count": 0
+            }
+          ],
+          "name": "staying_home",
+          "node": "6ecf9c8e-052f-4e49-93eb-430fce0d98f0",
+          "set": 2,
+          "unset": 0,
+          "oepn_ended": false,
+          "label": "Shamlapur"
+        }
+      ],
+      "ruleset_uuid": "c1729949-e772-4217-a088-bb71c5d6ef8f"
+    }
+  ]
+}</div>
+
+<script>
+
+  var data_pack = document.getElementById("data_pack").innerHTML;
+  var sample_json = JSON.parse(data_pack);
+  // Re-define Data Structure
+
+  document.onload = function () {
+    for(var i = 0; i < this.sample_json.questions.length; i++){
+      sample_json.questions[i].vstate = "statistics";
+
+      // Statistics
+      for(var j = 0; j < this.sample_json.questions[i].results.categories.length; j++){
+        var x = this.sample_json.questions[i].results.set;
+        var y = this.sample_json.questions[i].results.categories[j].count;
+        var z = 0; if(x > y && y > 0){z = 100 / (x / y);}
+      sample_json.questions[i].results.categories[j].percent = z;
+
+      }
+
+      // Age
+      for(var j = 0; j < this.sample_json.questions[i].results_by_hub.length; j++){
+        var x = this.sample_json.questions[i].results_by_hub[j].set;
+        for(var k = 0; k < this.sample_json.questions[i].results_by_hub[j].categories.length; k++){
+          var y = this.sample_json.questions[i].results_by_hub[j].categories[k].count;
+          var z = 0; if(x > y && y > 0){z = 100 / (x / y);}
+          sample_json.questions[i].results_by_hub[j].categories[k].percent = z;
+        }
+      }
+
+      // Gender
+      for(var j = 0; j < this.sample_json.questions[i].results_by_gender.length; j++){
+        var x = this.sample_json.questions[i].results_by_gender[j].set;
+        for(var k = 0; k < this.sample_json.questions[i].results_by_gender[j].categories.length; k++){
+          var y = this.sample_json.questions[i].results_by_gender[j].categories[k].count;
+          var z = 0; if(x > y && y > 0){z = 100 / (x / y);}
+          sample_json.questions[i].results_by_gender[j].categories[k].percent = z;
+        }
+      }
+
+    }
+  }
+</script>
+
+<div id="vueApp">
+  
+  <span v-if="sample_json != ''">
+    <div v-for="(q, qi) in sample_json.questions">
+      
+      <div class="card">
+        
+        <p><b>{{q.title}}</b></p>
+
+        <div class="button_container">
+          <span>
+            <button 
+              class="state_button" 
+              @click="changeState(q, 'statistics', qi)"
+              v-bind:class="{active_button: (sample_json.questions[qi].vstate == 'statistics')}"
+            >Statistics</button>
+          </span>
+          <span v-if="q.results_by_gender.length > 0">
+            <button 
+              class="state_button"
+              @click="changeState(q, 'gender', qi)"
+              v-bind:class="{active_button: (sample_json.questions[qi].vstate == 'gender')}"
+            >Gender</button>
+          </span>
+          <span v-if="q.results_by_hub.length > 0">
+            <button
+              class="state_button"
+              @click="changeState(q, 'hub', qi)"
+              v-bind:class="{active_button: (sample_json.questions[qi].vstate == 'hub')}"
+            >Hub</button>
+          </span>
+        </div>
+
+        <hr>
+
+        <span v-if="sample_json.questions[qi].vstate == 'statistics'">
+          <p v-for="(a, i) in q.results.categories" class="answer_box">
+            <span class="answer_text">{{a.label}}</span>
+            <br>
+
+            <span class="answer_bar w3-light-grey w3-round" style="display: inline-block;">
+              <span class="answer_bar_fill w3-container w3-round"
+                v-bind:style="{width: a.percent + '%', backgroundColor: colorset[i%4]}"></span>
+            </span>
+
+            <span class="answer_percent" v-bind:style="{color: colorset2[i%4]}">
+              {{Math.floor(a.percent)}}%
+            </span>
+          </p>
+
+        </span>
+
+        <span v-if="q.vstate == 'hub'">
+          <span v-for="hub in q.results_by_hub" class="answer_box">
+            
+            <span class="answer_tag">
+              <b>{{hub.label}}</b>
+            </span>
+
+            <br>
+            
+            <p v-for="(a, i) in hub.categories" class="answer_box">
+              
+              <span class="answer_text">{{a.label}}</span>
+              <br>
+              
+              <span class="answer_bar w3-light-grey w3-round" style="display: inline-block;">
+                <span class="answer_bar_fill w3-container w3-round"
+                  v-bind:style="{width: a.percent + '%', backgroundColor: colorset[i%4]}"></span>
+              </span>
+  
+              <span class="answer_percent" v-bind:style="{color: colorset2[i%4]}">
+                {{Math.floor(a.percent)}}%
+              </span>
+
+            </p>
+          </span>
+        </span>
+
+        <span v-if="q.vstate == 'gender'">
+          <span v-for="gender in q.results_by_gender" class="answer_box">
+            
+            <span class="answer_tag">
+              <b>{{gender.label}}</b>
+            </span>
+
+            <br>
+
+            <p v-for="(a, i) in gender.categories" class="answer_box">
+              <span class="answer_text">{{a.label}}</span>
+              <br>
+              
+              <span class="answer_bar w3-light-grey w3-round" style="display: inline-block;">
+                <span class="answer_bar_fill w3-container w3-round"
+                  v-bind:style="{width: a.percent + '%', backgroundColor: colorset[i%4]}"></span>
+              </span>
+  
+              <span class="answer_percent" v-bind:style="{color: colorset2[i%4]}">
+                {{Math.floor(a.percent)}}%
+              </span>
+
+            </p>
+
+          </span>
+        </span>
+
+      </div>
+
+    </div>
+  </span>
+
+<br><br>
+<br><br>
+  
+</div>
+
+<script>
+var app = new Vue({
+  el: '#vueApp',
+  data: {
+    message: 'Hello World',
+    sample_json: "",
+    state: "none",
+    current_division: "",
+    translation: {
+      en: {
+        division_total_poll: "%n people responded"
+      }
+    },
+    colorset: ["#56C6FC", "#FF5D5D", "#4CBCA7", "#FFC95D"],
+    colorset2: ["#56C6FC", "#FF5D5D", "#4CBCA7", "#FFC95D"]
+  },
+  methods: {
+    activate() {
+      this.message = this.sample_json.id;
+
+      
+    },
+    changeState(com, state, qid) {
+      com.vstate = state;
+    },
+  },
+  mounted() {
+    
+    var data_pack = document.getElementById("data_pack").innerHTML;
+    this.sample_json = JSON.parse(data_pack);
+    this.activate();
+  }
+});
+
+
+</script>
+</body>
+</html>

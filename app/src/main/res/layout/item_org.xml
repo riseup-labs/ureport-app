@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="22dp"
+    android:paddingTop="8dp"
+    android:paddingEnd="22dp"
+    android:paddingBottom="8dp">
+
+    <!--    <io.rapidpro.surveyor.ui.IconTextView-->
+    <!--        android:id="@+id/org_icon"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        android:gravity="center_vertical"-->
+    <!--        android:text="@string/icon_folder"-->
+    <!--        android:textColor="@color/primary_lightest"-->
+    <!--        android:textSize="32sp"/>-->
+    <ImageView
+        android:id="@+id/org_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center_vertical"
+        app:srcCompat="@drawable/v1_org_icon" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/org_icon"
+        android:layout_alignBottom="@+id/org_icon"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_toEndOf="@+id/org_icon"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/text_org"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nyaruka"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "259113623349",
+    "firebase_url": "https://ureport-app.firebaseio.com",
+    "project_id": "ureport-app",
+    "storage_bucket": "ureport-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:259113623349:android:acc195b3b16f92512e367c",
+        "android_client_info": {
+          "package_name": "com.riseuplabs.ureport_rv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "259113623349-k92nt8hgenqja5koftu3otmi47srnkvr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKbLIwGmL-_QEv7IWvdto0cwaPx84qFcg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "259113623349-k92nt8hgenqja5koftu3otmi47srnkvr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

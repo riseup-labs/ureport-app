@@ -1,0 +1,334 @@
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="css/w3.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<script src="js/vue.min.js"></script>
+	<script src="js/vue.word.cloud.js"></script>
+<style>
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  line-height: 1.2;
+}
+.answer_box {
+  margin-top: -4px;
+  margin-bottom: -5px;
+}
+.answer_text {
+  margin-top: 20px;
+  position: absolute;
+  margin-left: 4px;
+  color: black;
+}
+.answer_bar {
+  height: 20px;
+  width: 75%;
+}
+.answer_tag {
+  margin-top: 11px;
+  position: absolute;
+}
+.answer_percent {
+  font-size: 14px;
+  position: absolute;
+  padding-left: 8px;
+  padding-top: 1px;
+}
+.answer_bar_fill {
+  padding: 0px;
+  color: #fff;
+  display: list-item;
+  padding: 0px; 
+  height: 21px;
+}
+.state_button {
+  background: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  border-color: black;
+  border: 1px;
+  border-style: solid;
+  margin-left: -5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: larger;
+}
+.active_button {
+  border-color: black;
+  background: rgb(83, 83, 83);
+  color: white;
+  font-size: larger;
+}
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+  margin: 8px;
+  padding: 2px 8px 16px 8px;
+}
+.button_container {
+  text-align: center;
+}
+hr {
+  border: 0.5px solid rgb(210, 210, 210);
+  margin: 4px;
+}
+.black-text {
+  /* color:black; */
+}
+/* .start_curve {
+  border-radius: 15px 0px 0px 15px;
+}
+.end_curve {
+  border-radius: 0px 15px 15px 0px;
+} */
+
+.noselect {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Opera and Firefox */
+}
+</style>
+</head>
+<body>
+<div style="display: none;">
+  <!-- Audio Player -->
+  <audio id="audio_tick">
+      <source src="audio_tick.mp3" type="audio/mpeg">
+  </audio>
+</div>
+
+<div id="data_pack" style="display: none;">::data_pack::</div>
+
+<div id="vueApp">
+  
+  <span v-if="sample_json != ''">
+    <div v-for="(q, qi) in sample_json.questions">
+      
+      <div class="card noselect">
+        
+        <p><b>{{q.title}}</b></p>
+
+        <div class="button_container noselect"  unselectable="on">
+          <span>
+            <span 
+              unselectable="on"
+              class="noselect state_button" 
+              @click="changeState(q, 'statistics', qi)"
+              v-bind:class="{active_button: (sample_json.questions[qi].vstate == 'statistics')}"
+            >Statistics</span>
+          </span>
+          <span v-if="q.results_by_gender.length > 0 && q.results.open_ended == false">
+            <span 
+              unselectable="on"
+              class="noselect state_button"
+              @click="changeState(q, 'gender', qi)"
+              v-bind:class="{active_button: (sample_json.questions[qi].vstate == 'gender')}"
+            >Gender</span>
+          </span>
+          <span v-if="q.results_by_hub.length > 0 && q.results.open_ended == false">
+            <span
+              unselectable="on"
+              class="noselect state_button"
+              @click="changeState(q, 'hub', qi)"
+              v-bind:class="{active_button: (sample_json.questions[qi].vstate == 'hub')}"
+            >Hub</span>
+          </span>
+        </div>
+
+        <hr>
+
+        <span v-if="sample_json.questions[qi].vstate == 'statistics'&& q.results.open_ended == false">
+
+          <p v-for="(a, i) in q.results.categories" class="answer_box">
+            <span class="answer_text">{{a.label}}</span>
+            <br>
+
+            <span class="answer_bar w3-light-grey w3-round" style="display: inline-block;">
+              <span class="answer_bar_fill w3-container w3-round"
+                v-bind:style="{width: a.percent + '%', backgroundColor: newColor[qi%4]}"></span>
+            </span>
+
+            <span class="answer_percent" style="color:rgb(0, 0, 0)">
+              <b>{{Math.floor(a.percent)}}%</b>
+            </span>
+          </p>
+
+        </span>
+
+        <span v-if="sample_json.questions[qi].vstate == 'statistics' && q.results.open_ended == true">
+
+          <div style="width: 100%; height: 300px;" class="answer_box">
+            <vue-word-cloud
+              :words="q.results.open_arr"
+              :color="randomColor()"
+              :spacing="0.25"
+              font-size-ratio="3"
+              font-family="Roboto"
+            />
+          </div>
+        </span>
+        
+        <span v-if="q.vstate == 'hub' && q.results.open_ended == false">
+          <span v-for="hub in q.results_by_hub" class="answer_box">
+            
+            <span class="answer_tag">
+              <b>{{hub.label}}</b>
+            </span>
+
+            <br>
+            
+            <p v-for="(a, i) in hub.categories" class="answer_box">
+              
+              <span class="answer_text">{{a.label}}</span>
+              <br>
+              
+              <span class="answer_bar w3-light-grey w3-round" style="display: inline-block;">
+                <span class="answer_bar_fill w3-container w3-round"
+                  v-bind:style="{width: a.percent + '%', backgroundColor: newColor[qi%4]}"></span>
+              </span>
+  
+              <span class="answer_percent" style="color:rgb(0, 0, 0)">
+                <b>{{Math.floor(a.percent)}}%</b>
+              </span>
+
+            </p>
+          </span>
+        </span>
+
+        <span v-if="q.vstate == 'gender' && q.results.open_ended == false">
+          <span v-for="gender in q.results_by_gender" class="answer_box">
+            
+            <span class="answer_tag">
+              <b>{{gender.label}}</b>
+            </span>
+
+            <br>
+
+            <p v-for="(a, i) in gender.categories" class="answer_box">
+              <span class="answer_text">{{a.label}}</span>
+              <br>
+              
+              <span class="answer_bar w3-light-grey w3-round" style="display: inline-block;">
+                <span class="answer_bar_fill w3-container w3-round"
+                  v-bind:style="{width: a.percent + '%', backgroundColor: newColor[qi%4]}"></span>
+              </span>
+  
+              <span class="answer_percent" style="color:rgb(0, 0, 0)">
+                <b>{{Math.floor(a.percent)}}%</b>
+              </span>
+
+            </p>
+
+          </span>
+        </span>
+
+      </div>
+
+    </div>
+  </span>
+
+<br><br>
+<br><br>
+  
+</div>
+
+<script>
+var app = new Vue({
+  el: '#vueApp',
+  data: {
+    message: 'Hello World',
+    sample_json: "",
+    state: "none",
+    current_division: "",
+    translation: {
+      en: {
+        division_total_poll: "%n people responded"
+      }
+    },
+    newColor: ["#009A17", "#FFD100", "#E4002B", "#5acfff"],
+    colorset: ["#56C6FC", "#FF5D5D", "#4CBCA7", "#FFC95D"],
+    colorset2: ["#56C6FC", "#FF5D5D", "#4CBCA7", "#FFC95D"]
+  },
+  methods: {
+    activate() {
+      this.message = this.sample_json.id;
+
+      // Re-define Data Structure
+      for(var i = 0; i < this.sample_json.questions.length; i++){
+        Vue.set(this.sample_json.questions[i], 'vstate', "statistics");
+
+        // Statistics
+        for(var j = 0; j < this.sample_json.questions[i].results.categories.length; j++){
+          var x = this.sample_json.questions[i].results.set;
+          var y = this.sample_json.questions[i].results.categories[j].count;
+          var z = 0; if(x > y && y > 0){z = 100 / (x / y);}
+          Vue.set(this.sample_json.questions[i].results.categories[j], 'percent', z);
+        }
+
+        // Open Ended
+        if(this.sample_json.questions[i].results.open_ended == true){
+          var open_arr = [];
+          for(j = 0; j < this.sample_json.questions[i].results.open.length; j++){
+            open_arr.push([
+              this.sample_json.questions[i].results.open[j].label,
+              this.sample_json.questions[i].results.open[j].count
+            ]);
+          }
+          Vue.set(this.sample_json.questions[i].results, 'open_arr', open_arr);
+        }
+
+
+        // Age
+        for(var j = 0; j < this.sample_json.questions[i].results_by_hub.length; j++){
+          var x = this.sample_json.questions[i].results_by_hub[j].set;
+          for(var k = 0; k < this.sample_json.questions[i].results_by_hub[j].categories.length; k++){
+            var y = this.sample_json.questions[i].results_by_hub[j].categories[k].count;
+            var z = 0; if(x > y && y > 0){z = 100 / (x / y);}
+            Vue.set(this.sample_json.questions[i].results_by_hub[j].categories[k], 'percent', z);
+          }
+        }
+
+        // Gender
+        for(var j = 0; j < this.sample_json.questions[i].results_by_gender.length; j++){
+          var x = this.sample_json.questions[i].results_by_gender[j].set;
+          for(var k = 0; k < this.sample_json.questions[i].results_by_gender[j].categories.length; k++){
+            var y = this.sample_json.questions[i].results_by_gender[j].categories[k].count;
+            var z = 0; if(x > y && y > 0){z = 100 / (x / y);}
+            Vue.set(this.sample_json.questions[i].results_by_gender[j].categories[k], 'percent', z);
+          }
+        }
+
+      }
+    },
+    changeState(com, state, qid) {
+      if(com.vstate != state){
+        document.getElementById("audio_tick").play();
+      }
+      com.vstate = state;
+    },
+    randomFloat(mn, mx) {  
+      return Math.random() * (mx - mn) + mn;  
+    },
+    randomNum(mn, mx) {  
+      return Math.floor(Math.random() * (mx - mn) + mn);  
+    },
+    randomColor() {
+      return this.colorset[this.randomNum(0, 3)];
+    }
+  },
+  mounted() {
+    
+    var data_pack = document.getElementById("data_pack").innerHTML;
+    this.sample_json = JSON.parse(data_pack);
+    this.activate();
+  }
+});
+</script>
+</body>
+</html>

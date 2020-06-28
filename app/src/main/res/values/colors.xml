@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--
+      Palette generated from paletton:
+      http://paletton.com/#uid=53B0x0knyhTdHrQjdmlsEcMAt7T
+    -->
+    <color name="background">#eeeeee</color>
+
+    <color name="primary_background">#C8E6C9</color>
+    <color name="primary_lightest">#A5D6A7</color>
+    <color name="primary_light">#81C784</color>
+    <color name="primary">#66BB6A</color>
+    <color name="primary_dark">#4CAF50</color>
+    <color name="primary_darkest">#43A047</color>
+
+    <color name="secondary_lightest">#68609A</color>
+    <color name="secondary_light">#443B7B</color>
+    <color name="secondary">#2C2463</color>
+    <color name="secondary_dark">#171047</color>
+    <color name="secondary_darkest">#0A052B</color>
+
+    <color name="tertiary_lightest">#B2DFDB</color>
+    <color name="tertiary_light">#56967E</color>
+    <color name="tertiary">#30785D</color>
+    <color name="tertiary_dark">#07452E</color>
+    <color name="tertiary_darkest">#002A1A</color>
+
+    <!-- other widgets -->
+    <color name="light_gray">#b1b1b1</color>
+    <color name="chat_in">#c4ddfb</color>
+    <color name="chat_out">#dddddd</color>
+    <color name="white">#FFFFFF</color>
+    <color name="warning_background">#bc8181</color>
+    <color name="warning">#b93b3b</color>
+    <color name="warning_text">#481313</color>
+
+    <color name="pending_background">#b0c2ae</color>
+    <color name="pending">#6e946a</color>
+    <color name="pending_border">#62865d</color>
+    <color name="pending_button_text">#ebf2ea</color>
+    <color name="pending_text">#2c4b27</color>
+
+    <color name="recording">#f4f4f4</color>
+
+    <!-- U-Report !-->
+    <color name="green2">#1b8507</color>
+    <color name="colorlightGrey">#E4E4E4</color>
+    <color name="alpha">#00FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="colorPrimary">#1E87CA</color>
+
+    <color name="option1">#56c6fc</color>
+    <color name="option2">#FF5D5D</color>
+    <color name="option3">#4cbca7</color>
+    <color name="option4">#ffc95d</color>
+    <color name="option5">#9e82fd</color>
+
+    <color name="magenta">#6E78F7</color>
+
+</resources>

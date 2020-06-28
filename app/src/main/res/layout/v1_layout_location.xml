@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginBottom="5dp"
+            android:text="@string/v1_ureport_participation_level" />
+
+        <View
+            android:id="@+id/view6"
+            android:layout_width="wrap_content"
+            android:layout_height="2dp"
+            android:background="@color/green2" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="5dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/v1_ureport_responses" />
+
+                <TextView
+                    android:id="@+id/textViewResponseInZone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/v1_ureport_from_all" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textViewRespondedMap"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="5,308" />
+
+                <TextView
+                    android:id="@+id/textViewRespondedAllMap"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="5,680" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/v1_ureport_results" />
+
+        <View
+            android:id="@+id/view8"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/green2" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/respondedPercentageMap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="40%" />
+
+            <TextView
+                android:id="@+id/respondedLabelMap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:text="অন্য স্বাস্থ্যসেবার জন্য" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textViewRest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="60%" />
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:text="@string/v1_ureport_other" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/defaultmap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
+
+        <ImageView
+            android:id="@+id/imageViewMapBd"
+            android:layout_width="390dp"
+            android:layout_height="335dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/v3_bd_0" />
+
+        <View
+            android:id="@+id/mymensinghClick"
+            android:layout_width="76dp"
+            android:layout_height="61dp"
+            android:layout_marginStart="164dp"
+            android:layout_marginLeft="164dp"
+            android:layout_marginTop="72dp"
+            app:layout_constraintStart_toStartOf="@+id/imageViewMapBd"
+            app:layout_constraintTop_toTopOf="@+id/imageViewMapBd" />
+
+        <View
+            android:id="@+id/khulnaClick"
+            android:layout_width="68dp"
+            android:layout_height="126dp"
+            android:layout_marginStart="112dp"
+            android:layout_marginLeft="112dp"
+            android:layout_marginTop="148dp"
+            app:layout_constraintStart_toStartOf="@+id/imageViewMapBd"
+            app:layout_constraintTop_toTopOf="@+id/imageViewMapBd" />
+
+        <View
+            android:id="@+id/dhakaClick"
+            android:layout_width="91dp"
+            android:layout_height="84dp"
+            android:layout_marginStart="164dp"
+            android:layout_marginLeft="164dp"
+            android:layout_marginTop="120dp"
+            app:layout_constraintStart_toStartOf="@+id/imageViewMapBd"
+            app:layout_constraintTop_toTopOf="@+id/imageViewMapBd" />
+
+        <TextView
+            android:id="@+id/districtName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="@string/v1_ureport_all"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/imageViewMapBd"
+            app:layout_constraintStart_toStartOf="@+id/imageViewMapBd"
+            app:layout_constraintTop_toBottomOf="@+id/barisalClick" />
+
+        <View
+            android:id="@+id/rajshahiClick"
+            android:layout_width="93dp"
+            android:layout_height="88dp"
+            android:layout_marginStart="92dp"
+            android:layout_marginLeft="92dp"
+            android:layout_marginTop="72dp"
+            app:layout_constraintStart_toStartOf="@+id/imageViewMapBd"
+            app:layout_constraintTop_toTopOf="@+id/imageViewMapBd" />
+
+        <View
+            android:id="@+id/rongpurClick"
+            android:layout_width="96dp"
+            android:layout_height="76dp"
+            android:layout_marginStart="84dp"
+            android:layout_marginLeft="84dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@+id/imageViewMapBd"
+            app:layout_constraintTop_toTopOf="@+id/imageViewMapBd" />
+
+        <View
+            android:id="@+id/sylhetClick"
+            android:layout_width="91dp"
+            android:layout_height="63dp"
+            android:layout_marginStart="228dp"
+            android:layout_marginLeft="228dp"
+            android:layout_marginTop="84dp"
+            app:layout_constraintStart_toStartOf="@+id/imageViewMapBd"
+            app:layout_constraintTop_toTopOf="@+id/imageViewMapBd" />
+
+        <View
+            android:id="@+id/barisalClick"
+            android:layout_width="87dp"
+            android:layout_height="90dp"
+            android:layout_marginStart="164dp"
+            android:layout_marginLeft="164dp"
+            android:layout_marginTop="192dp"
+            app:layout_constraintStart_toStartOf="@+id/imageViewMapBd"
+            app:layout_constraintTop_toTopOf="@+id/imageViewMapBd" />
+
+        <View
+            android:id="@+id/chittagongClick"
+            android:layout_width="98dp"
+            android:layout_height="180dp"
+            android:layout_marginStart="228dp"
+            android:layout_marginLeft="228dp"
+            android:layout_marginTop="148dp"
+            app:layout_constraintStart_toStartOf="@+id/imageViewMapBd"
+            app:layout_constraintTop_toTopOf="@+id/imageViewMapBd" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="yes">ဟုတ်တယ်</string>
+    <string name="no">နံပါတ်</string>
+    <plurals name="questions">
+        <item quantity="one">%d မေးခွန်း</item>
+        <item quantity="other">%d မေးခွန်း</item>
+    </plurals>
+    <plurals name="submissions_sent">
+        <item quantity="one">%d တင်သွင်းမှုပေးပို့ပြီးပြီ</item>
+        <item quantity="other">%d တင်သွင်းမှုပေးပို့ပြီးပြီ</item>
+    </plurals>
+
+    <string name="app_name">U-Report App</string>
+    <string name="v1_settings">ကိရိယာများ</string>
+    <string name="v1_stories">ပုံပြင်များ</string>
+    <string name="v1_survey">တုံ့ပြန်ချက်</string>
+    <string name="v1_ureport">ရလဒ်</string>
+    <string name="v1_welcome_to_app">U-Report Application</string>
+    <string name="v1_story_see_more">ထပ်မံကြည့်ရှုပါ</string>
+    <string name="v1_story_details">ပုံပြင်အသေးစိတ်</string>
+
+
+    <string name="v1_ureport_division_rangpur">Rangpur Division</string>
+    <string name="v1_ureport_division_rajshahi">Rajshahi Division</string>
+    <string name="v1_ureport_division_dhaka">Dhaka Division</string>
+    <string name="v1_ureport_division_mymensing">Mymensingh Division</string>
+    <string name="v1_ureport_division_sylhet">Sylhet Division</string>
+    <string name="v1_ureport_division_khulna">Khulna Division</string>
+    <string name="v1_ureport_division_barisal">Barisal Division</string>
+    <string name="v1_ureport_division_chittagong">Chittagong Division</string>
+
+    <string name="v1_reporters_in_x">%div မှ</string>
+    <string name="v1_ureport_participation_level">ပါဝင်မှုပမာဏ</string>
+    <string name="v1_ureport_responses">တုံ့ပြန်ချက်များ</string>
+    <string name="v1_ureport_other">အခြားသူများ</string>
+    <string name="v1_ureport_male">အထီး</string>
+    <string name="v1_ureport_female">အမျိုးသမီး</string>
+    <string name="v1_ureport_location">တည်နေရာ</string>
+    <string name="v1_ureport_gender">ကျားမ</string>
+    <string name="v1_ureport_results">ရလဒ်</string>
+    <string name="v1_ureport_statistics">စာရင်းအင်းများ</string>
+    <string name="v1_ureport_age">အသက်</string>
+    <string name="v1_ureport_all">အားလုံး</string>
+    <string name="v1_ureport_out_of">%sub ကို %sup ထဲကတုံ့ပြန်ခဲ့သည်</string>
+    <string name="v1_ureport_from_all">နေရာအားလုံးမှ</string>
+    <string name="v1_ureport_keyword_text">အကြံပြုချက်များ</string>
+    <string name="v1_install_tts_bn">ဘင်္ဂလီ Text to Speech အထုပ်ကိုမတွေ့ပါ။ ကျေးဇူးပြု၍ ဘင်္ဂလီဘာသာစကားအထုပ်ကိုထည့်ပါ</string>
+    <string name="v1_install_tts_en">စကားလုံးမှစကားသို့အထုပ်ကိုမတွေ့ပါ။ ကျေးဇူးပြုပြီးဘာသာစကားအထုပ်များထည့်သွင်းပါ။</string>
+    <string name="v1_install_tts_my">ကျေးဇူးပြု၍ မြန်မာစာသားအတွက်စကားလုံးသို့ SM Myanmar TTS ထည့်သွင်းပါ။</string>
+    <string name="v1_ureport_poll_summary">တုံ့ပြန်ချက်များ: %sup, တုံ့ပြန်မှုနှုန်း: %sub%</string>
+    <string name="v1_ureport_poll_summary_off">တုံ့ပြန်ချက်များ: %sup</string>
+</resources>

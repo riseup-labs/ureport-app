@@ -1,0 +1,305 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="../font-my/font.css" rel="stylesheet" />
+        <link href="../css/lc_switch.css" rel="stylesheet" />
+        <script src="../js/jquery.js" type="text/javascript"></script>
+        <script src="../js/lc_switch.js" type="text/javascript"></script>
+<style>
+body {
+    font-family: Arial, Helvetica, sans-serif, cherry_unicoderegular;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+.noselect {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Opera and Firefox */
+                                  
+}
+.lcs_wrap .lcs_switch {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Opera and Firefox */
+}
+.footer {
+    width: 90%;
+    margin-left: 5%;
+}
+.footer p {
+    font-size: 12px;
+    text-decoration: underline;
+    font-weight: bold;
+}
+.footer td {
+    margin-left: 10px;
+}
+</style>
+</head>
+<body>
+    <div class="noselect" unselectable="on">
+        <div style="display: none;">
+            <audio id="audio_yes">
+                <source src="button_click_yes.mp3" type="audio/mpeg">
+            </audio>
+            <audio id="audio_change">
+                <source src="setting_button_change.mp3" type="audio/mpeg">
+            </audio>
+        </div>
+        <div style="height: 80px; padding-top: 10px;">
+            <h3 id="change_lang" style="padding-left: 5%;">Change Language</h3>
+        </div>
+        
+        <form>
+        <center>
+            <input id="lang_en" type="radio" name="lang_c" value="en" />
+            <br><br>
+            <input id="lang_my" type="radio" name="lang_c" value="my" />
+            <!-- HideBN <br><br>
+            <input id="lang_bn" type="radio" name="lang_c" value="bn" /> HideBN  !-->
+        </center>
+        </form>
+
+        <div style="height: 80px; padding-top: 10px;">
+            <h3 id="change_sound" style="padding-left: 5%;">Sound</h3>
+        </div>
+        
+        <form>
+        <center>
+            <input id="sound_on" type="checkbox" name="sound_c" value="on" />
+        </center>
+        </form>
+
+        <div style="height: 80px; padding-top: 10px;">
+            <h3 id="change_vibration" style="padding-left: 5%;">Vibration</h3>
+        </div>
+        
+        <form>
+        <center>
+            <input id="vibration_on" type="checkbox" name="vibration_c" value="on" />
+        </center>
+        </form>
+
+        <div style="height: 80px; padding-top: 50px;">
+            <table onclick="logout()" style="padding-left: 5%;">
+                <tr style="width: 60px;">
+                    <td style="vertical-align: middle;">
+                        <span id="logout_text" style="font-size: 20px; font-weight: bold;">Logout</span>
+                    </td>
+                    <td style="vertical-align: middle;">
+                        <img id="login_image" src="../images/v1_icon_logout.png" height="60" style="margin-left: -10px;">
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <br>
+        <div class="footer">
+            <table>
+                <tr align="center">
+                    <td width="50%" align="center">
+                        <p id="overall_assistance">Overall assistance of</p>
+                    </td>
+                    <td width="50%" align="center">
+                        <p id="app_developed">Developed by</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="50%" align="center">
+                        <img src="../images/v1_unicef_logo.png" width="60%" />
+                    </td>
+                    <td width="50%" align="center">
+                        <img src="../images/v1_riseup_logo.png" width="60%"  />
+                    </td>
+                </tr>
+            </table>
+            <br>
+            <center id="version_name"><!--::version_name::--></center>
+            <br>
+            <br><br>
+            <br><br>
+        </div>
+    </div>
+
+<script type="text/javascript">
+    var langData = new Object();
+
+    langData['en'] = {"lang": "Change Language", "login": "Login", "sound": "Sound", "vibration": "Vibration",
+                      "logout": "Logout", "assistance": "Overall assistance of",
+                      "app_developed": "Designed & Developed by"};
+
+    langData['bn'] = {"lang": "ভাষা পরিবর্তন করো", "login": "লগইন", "sound": "শব্দ", "vibration": "ভাইব্রেশন",
+                      "logout": "লগ আউট", "assistance": "সার্বিক সহযোগিতায়",
+                      "app_developed": "অ্যাপ নির্মাণে"};
+
+    langData['my'] = {"lang": "ဘာသာစကားပြောင်းပါ", "login": "လော့ဂ်အင်", "sound": "အသံ", "vibration": "တုန်ခါမှု",
+                      "logout": "ထွက်ပေါက်", "assistance": "Overall assistance of",
+                      "app_developed": "Designed & Developed by"}; 
+
+    var lang_code = "";
+    var last_lang = "";
+    var logged_in = true;
+    var login_state = 'logout';
+    var skipFirst = true;
+    var skipFirstSound = true;
+    var skipFirstVibration = true;
+    var sound_state = undefined;
+    var last_sound = undefined;
+    var vibration_state = undefined;
+    var last_vibration = undefined;
+
+    function current_stat(lang, login, sound, vibration, version_name){
+        document.getElementById("version_name").innerHTML = "Version: " + version_name;
+
+        if(lang == "en"){setTimeout($('#lang_en').lcs_on(), 500);}
+        if(lang == "my"){setTimeout($('#lang_my').lcs_on(), 500);}
+        // HideBN if(lang == "bn"){setTimeout($('#lang_bn').lcs_on(), 500);}
+        if(login == 1){
+            logged_in == true;
+            login_state = 'logout';
+            $('#logout_text').html(langData[lang][login_state]);
+            $("#login_image").attr('src', "../images/v1_icon_logout.png");
+        }else{
+            logged_in == false;
+            login_state = 'login';
+            $('#logout_text').html(langData[lang][login_state]);
+            $("#login_image").attr('src', "../images/v1_icon_signin.png");
+        }
+        if(sound == 0){
+            sound_state = undefined;
+            last_sound = undefined;
+            setTimeout($('#sound_on').lcs_off(), 500);
+        }else{
+            sound_state = "On";
+            last_sound = "On";
+            setTimeout($('#sound_on').lcs_on(), 500);
+        }
+        if(vibration == 0){
+            vibration_state = undefined;
+            last_vibration = undefined;
+            setTimeout($('#vibration_on').lcs_off(), 500);
+        }else{
+            vibration_state = "On";
+            last_vibration = "On";
+            setTimeout($('#vibration_on').lcs_on(), 500);
+        }
+    }
+
+    function logout() {
+
+        console.log("Logout");
+
+        if(sound_state == "on"){
+            document.getElementById("audio_yes").play();
+        }
+
+        if(typeof SurveyorApp !== 'undefined'){
+            SurveyorApp.toggleLogin();
+        }
+
+    }
+
+    $(document).ready(function(e) {
+        $('#lang_en').lc_switch('English', 'English');
+        $('#lang_my').lc_switch('ဗမာ', 'ဗမာ');
+        // HideBN $('#lang_bn').lc_switch('বাংলা', 'বাংলা');
+        $('#sound_on').lc_switch('On', 'Off');
+        $('#vibration_on').lc_switch('On', 'Off');
+
+        setInterval(function(){
+            lang_code = $('input[name=lang_c]:checked').val();
+            sound_state = $('input[name=sound_c]:checked').val();
+            vibration_state = $('input[name=vibration_c]:checked').val();
+
+            if(lang_code != last_lang && lang_code != undefined){
+                // Language Changed : Trigger Native
+                console.log("Last: " + last_lang);
+                console.log("Lang: " + lang_code);
+
+                $('#change_lang').html(langData[lang_code]['lang']);
+                $('#overall_assistance').html(langData[lang_code]['assistance']);
+                $('#app_developed').html(langData[lang_code]['app_developed']);
+                $('#change_sound').html(langData[lang_code]['sound']);
+                $('#change_vibration').html(langData[lang_code]['vibration']);
+                $('#logout_text').html(langData[lang_code][login_state]);
+
+                if(skipFirst == true && lang_code != "" && last_lang == ""){
+                    last_lang = $('input[name=lang_c]:checked').val();
+                    skipFirst = false;
+                    return;
+                }
+
+                last_lang = $('input[name=lang_c]:checked').val();
+
+                if(sound_state == "on"){
+                    document.getElementById("audio_change").play();
+                }
+
+                if(typeof SurveyorApp !== 'undefined'){
+                    SurveyorApp.changeLang(lang_code);
+                }
+            }
+
+            if(vibration_state != last_vibration){
+
+                last_vibration = $('input[name=vibration_c]:checked').val();
+                console.log("Vibration: " + vibration_state);
+
+                if(typeof SurveyorApp !== 'undefined'){
+                    if(vibration_state == "on"){
+
+                        SurveyorApp.changeVibration("1");
+
+                        if(skipFirstVibration == false){
+                            document.getElementById("vibration_change").play();
+                        }
+
+                        skipFirstVibration = false;
+
+                    }else{
+                        SurveyorApp.changeVibration("0");
+                    }
+                }
+            }
+
+            if(sound_state != last_sound){
+
+                last_sound = $('input[name=sound_c]:checked').val();
+                console.log("Sound: " + sound_state);
+
+                if(typeof SurveyorApp !== 'undefined'){
+                    if(sound_state == "on"){
+
+                        SurveyorApp.changeSound("1");
+
+                        if(skipFirstSound == false){
+                            document.getElementById("audio_change").play();
+                        }
+
+                        skipFirstSound = false;
+
+                    }else{
+                        SurveyorApp.changeSound("0");
+                    }
+                }
+            }
+
+        }, 100);
+    });
+</script>
+
+</body>
+</html>

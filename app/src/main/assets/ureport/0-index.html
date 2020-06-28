@@ -1,0 +1,310 @@
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" href="css/w3.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<script src="js/vue.min.js"></script>
+	<script src="js/vue.word.cloud.js"></script>
+  <script src="js/axios.min.js"></script>
+  <script src="js/jquery.min.js"></script>
+<style>
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  line-height: 1.2;
+}
+.answer_box {
+  margin-top: -4px;
+  margin-bottom: -5px;
+}
+.answer_text {
+  margin-top: 20px;
+  position: absolute;
+  margin-left: 4px;
+  color: black;
+}
+.answer_bar {
+  height: 20px;
+  width: 85%;
+}
+.answer_tag {
+  margin-top: 11px;
+  position: absolute;
+}
+.answer_percent {
+  font-size: 14px;
+  position: absolute;
+  padding-left: 8px;
+  padding-top: 1px;
+}
+.answer_bar_fill {
+  padding: 0px;
+  color: #fff;
+  display: list-item;
+  padding: 0px; 
+  height: 21px;
+}
+.state_button {
+  background: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  border-color: black;
+  border: 1px;
+  border-style: solid;
+  margin-left: -5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: larger;
+}
+.active_button {
+  border-color: black;
+  background: rgb(83, 83, 83);
+  color: white;
+  font-size: larger;
+}
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+  margin: 8px;
+  padding: 2 8 16 8;
+}
+.button_container {
+  text-align: center;
+}
+hr {
+  border: 0.5px solid rgb(210, 210, 210);
+  margin: 4px;
+}
+
+.noselect {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Opera and Firefox */
+}
+
+</style>
+</head>
+<body>
+
+<div id="data_pack" style="display: none;">%7B%22id%22%3A0%2C%22flow_uuid%22%3A%2265d2efef-1922-4da7-bd62-813e451048f7%22%2C%22title%22%3A%22Social+Hub+-+%5Cu1005%5Cu1019%5Cu103a%5Cu1038%5Cu101e%5Cu1015%5Cu103a%5Cu1001%5Cu103c%5Cu1004%5Cu103a%5Cu1038%22%2C%22org%22%3A0%2C%22poll_date%22%3A%221588335308%22%2C%22created_on%22%3A%221588335308%22%2C%22category%22%3A%7B%22image_url%22%3A%22%22%2C%22name%22%3A%22Offline+Survey%22%7D%2C%22questions%22%3A%5B%7B%22title%22%3A%22COVID-19+%5Cu101e%5Cu100a%5Cu103a%5Cu101e%5Cu1004%5Cu103a%5Cu104f%5Cu101c%5Cu1030%5Cu1019%5Cu103e%5Cu102f%5Cu1021%5Cu101e%5Cu102d%5Cu102f%5Cu1004%5Cu103a%5Cu1038%5Cu1021+%5Cu1040+%5Cu102d%5Cu102f%5Cu1004%5Cu103a%5Cu1038%5Cu1021%5Cu1010%5Cu103d%5Cu1000%5Cu103a%5Cu1021%5Cu1014%5Cu1039%5Cu1010%5Cu101b%5Cu102c%5Cu101a%5Cu103a%5Cu101b%5Cu103e%5Cu102d%5Cu101e%5Cu100a%5Cu103a%5Cu101f%5Cu102f%5Cu101e%5Cu1004%5Cu103a%5Cu1011%5Cu1004%5Cu103a%5Cu1015%5Cu102b%5Cu101e%5Cu101c%5Cu102c%5Cu1038%5Cu104b%22%2C%22results%22%3A%7B%22categories%22%3A%5B%7B%22label%22%3A%22%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1010%5Cu101a%5Cu103a%22%2C%22count%22%3A8%7D%2C%7B%22label%22%3A%22%5Cu1019%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A7%7D%5D%2C%22name%22%3A%22is_risk%22%2C%22node%22%3A%220bfd72d1-764a-487a-a977-584b2b97c748%22%2C%22set%22%3A15%2C%22unset%22%3A0%2C%22oepn_ended%22%3Afalse%7D%2C%22results_by_gender%22%3A%5B%7B%22categories%22%3A%5B%7B%22label%22%3A%22%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1010%5Cu101a%5Cu103a%22%2C%22count%22%3A7%7D%2C%7B%22label%22%3A%22%5Cu1019%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A5%7D%5D%2C%22name%22%3A%22is_risk%22%2C%22node%22%3A%220bfd72d1-764a-487a-a977-584b2b97c748%22%2C%22set%22%3A12%2C%22unset%22%3A0%2C%22oepn_ended%22%3Afalse%2C%22label%22%3A%22Male%22%7D%2C%7B%22categories%22%3A%5B%7B%22label%22%3A%22%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1010%5Cu101a%5Cu103a%22%2C%22count%22%3A1%7D%2C%7B%22label%22%3A%22%5Cu1019%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A2%7D%5D%2C%22name%22%3A%22is_risk%22%2C%22node%22%3A%220bfd72d1-764a-487a-a977-584b2b97c748%22%2C%22set%22%3A3%2C%22unset%22%3A0%2C%22oepn_ended%22%3Afalse%2C%22label%22%3A%22Female%22%7D%5D%2C%22results_by_hub%22%3A%5B%7B%22categories%22%3A%5B%7B%22label%22%3A%22%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1010%5Cu101a%5Cu103a%22%2C%22count%22%3A4%7D%2C%7B%22label%22%3A%22%5Cu1019%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A2%7D%5D%2C%22name%22%3A%22is_risk%22%2C%22node%22%3A%220bfd72d1-764a-487a-a977-584b2b97c748%22%2C%22set%22%3A6%2C%22unset%22%3A0%2C%22oepn_ended%22%3Afalse%2C%22label%22%3A%22Burmapara%22%7D%2C%7B%22categories%22%3A%5B%7B%22label%22%3A%22%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1010%5Cu101a%5Cu103a%22%2C%22count%22%3A0%7D%2C%7B%22label%22%3A%22%5Cu1019%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A1%7D%5D%2C%22name%22%3A%22is_risk%22%2C%22node%22%3A%220bfd72d1-764a-487a-a977-584b2b97c748%22%2C%22set%22%3A1%2C%22unset%22%3A0%2C%22oepn_ended%22%3Afalse%2C%22label%22%3A%22Jadimora%22%7D%2C%7B%22categories%22%3A%5B%7B%22label%22%3A%22%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1010%5Cu101a%5Cu103a%22%2C%22count%22%3A2%7D%2C%7B%22label%22%3A%22%5Cu1019%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A1%7D%5D%2C%22name%22%3A%22is_risk%22%2C%22node%22%3A%220bfd72d1-764a-487a-a977-584b2b97c748%22%2C%22set%22%3A3%2C%22unset%22%3A0%2C%22oepn_ended%22%3Afalse%2C%22label%22%3A%22Jamtoli%22%7D%2C%7B%22categories%22%3A%5B%7B%22label%22%3A%22%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1010%5Cu101a%5Cu103a%22%2C%22count%22%3A2%7D%2C%7B%22label%22%3A%22%5Cu1019%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A1%7D%5D%2C%22name%22%3A%22is_risk%22%2C%22node%22%3A%220bfd72d1-764a-487a-a977-584b2b97c748%22%2C%22set%22%3A3%2C%22unset%22%3A0%2C%22oepn_ended%22%3Afalse%2C%22label%22%3A%22Ledda%22%7D%2C%7B%22categories%22%3A%5B%7B%22label%22%3A%22%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1010%5Cu101a%5Cu103a%22%2C%22count%22%3A0%7D%2C%7B%22label%22%3A%22%5Cu1019%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A2%7D%5D%2C%22name%22%3A%22is_risk%22%2C%22node%22%3A%220bfd72d1-764a-487a-a977-584b2b97c748%22%2C%22set%22%3A2%2C%22unset%22%3A0%2C%22oepn_ended%22%3Afalse%2C%22label%22%3A%22Shamlapur%22%7D%5D%2C%22ruleset_uuid%22%3A%221fa24a4f-7fab-4a71-96c0-bf0e55c09a53%22%7D%2C%7B%22title%22%3A%22%5Cu1021%5Cu101e%5Cu1000%5Cu103a%5Cu1021%5Cu101b%5Cu103d%5Cu101a%5Cu103a%5Cu1021%5Cu101e%5Cu102e%5Cu1038%5Cu101e%5Cu102e%5Cu1038%5Cu1019%5Cu103e%5Cu101c%5Cu1030%5Cu1019%5Cu103b%5Cu102c%5Cu1038%5Cu101e%5Cu100a%5Cu103a+COVID-19+%5Cu101b%5Cu1031%5Cu102c%5Cu1002%5Cu102b%5Cu1000%5Cu1030%5Cu1038%5Cu1005%5Cu1000%5Cu103a%5Cu1014%5Cu102d%5Cu102f%5Cu1004%5Cu103a%5Cu1000%5Cu103c%5Cu1031%5Cu102c%5Cu1004%5Cu103a%5Cu1038%5Cu101e%5Cu1004%5Cu103a%5Cu101e%5Cu102d%5Cu1015%5Cu102b%5Cu101e%5Cu101c%5Cu102c%5Cu1038%5Cu104b%22%2C%22results%22%3A%7B%22categories%22%3A%5B%7B%22label%22%3A%22%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1010%5Cu101a%5Cu103a%22%2C%22count%22%3A6%7D%2C%7B%22label%22%3A%22%5Cu1019%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A6%7D%2C%7B%22label%22%3A%22%5Cu1004%5Cu102b%5Cu1019%5Cu101e%5Cu102d%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A3%7D%5D%2C%22name%22%3A%22can_infect_all_age%22%2C%22node%22%3A%22b8fd34c9-8a6d-4595-9b0a-2fc703b886ff%22%2C%22set%22%3A15%2C%22unset%22%3A0%2C%22oepn_ended%22%3Afalse%7D%2C%22results_by_gender%22%3A%5B%7B%22categories%22%3A%5B%7B%22label%22%3A%22%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1010%5Cu101a%5Cu103a%22%2C%22count%22%3A5%7D%2C%7B%22label%22%3A%22%5Cu1019%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A4%7D%2C%7B%22label%22%3A%22%5Cu1004%5Cu102b%5Cu1019%5Cu101e%5Cu102d%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A3%7D%5D%2C%22name%22%3A%22can_infect_all_age%22%2C%22node%22%3A%22b8fd34c9-8a6d-4595-9b0a-2fc703b886ff%22%2C%22set%22%3A12%2C%22unset%22%3A0%2C%22oepn_ended%22%3Afalse%2C%22label%22%3A%22Male%22%7D%2C%7B%22categories%22%3A%5B%7B%22label%22%3A%22%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1010%5Cu101a%5Cu103a%22%2C%22count%22%3A1%7D%2C%7B%22label%22%3A%22%5Cu1019%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A2%7D%2C%7B%22label%22%3A%22%5Cu1004%5Cu102b%5Cu1019%5Cu101e%5Cu102d%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A0%7D%5D%2C%22name%22%3A%22can_infect_all_age%22%2C%22node%22%3A%22b8fd34c9-8a6d-4595-9b0a-2fc703b886ff%22%2C%22set%22%3A3%2C%22unset%22%3A0%2C%22oepn_ended%22%3Afalse%2C%22label%22%3A%22Female%22%7D%5D%2C%22results_by_hub%22%3A%5B%7B%22categories%22%3A%5B%7B%22label%22%3A%22%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1010%5Cu101a%5Cu103a%22%2C%22count%22%3A2%7D%2C%7B%22label%22%3A%22%5Cu1019%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A3%7D%2C%7B%22label%22%3A%22%5Cu1004%5Cu102b%5Cu1019%5Cu101e%5Cu102d%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A1%7D%5D%2C%22name%22%3A%22can_infect_all_age%22%2C%22node%22%3A%22b8fd34c9-8a6d-4595-9b0a-2fc703b886ff%22%2C%22set%22%3A6%2C%22unset%22%3A0%2C%22oepn_ended%22%3Afalse%2C%22label%22%3A%22Burmapara%22%7D%2C%7B%22categories%22%3A%5B%7B%22label%22%3A%22%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1010%5Cu101a%5Cu103a%22%2C%22count%22%3A0%7D%2C%7B%22label%22%3A%22%5Cu1019%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A1%7D%2C%7B%22label%22%3A%22%5Cu1004%5Cu102b%5Cu1019%5Cu101e%5Cu102d%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A0%7D%5D%2C%22name%22%3A%22can_infect_all_age%22%2C%22node%22%3A%22b8fd34c9-8a6d-4595-9b0a-2fc703b886ff%22%2C%22set%22%3A1%2C%22unset%22%3A0%2C%22oepn_ended%22%3Afalse%2C%22label%22%3A%22Jadimora%22%7D%2C%7B%22categories%22%3A%5B%7B%22label%22%3A%22%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1010%5Cu101a%5Cu103a%22%2C%22count%22%3A2%7D%2C%7B%22label%22%3A%22%5Cu1019%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A0%7D%2C%7B%22label%22%3A%22%5Cu1004%5Cu102b%5Cu1019%5Cu101e%5Cu102d%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A1%7D%5D%2C%22name%22%3A%22can_infect_all_age%22%2C%22node%22%3A%22b8fd34c9-8a6d-4595-9b0a-2fc703b886ff%22%2C%22set%22%3A3%2C%22unset%22%3A0%2C%22oepn_ended%22%3Afalse%2C%22label%22%3A%22Jamtoli%22%7D%2C%7B%22categories%22%3A%5B%7B%22label%22%3A%22%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1010%5Cu101a%5Cu103a%22%2C%22count%22%3A2%7D%2C%7B%22label%22%3A%22%5Cu1019%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A1%7D%2C%7B%22label%22%3A%22%5Cu1004%5Cu102b%5Cu1019%5Cu101e%5Cu102d%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A0%7D%5D%2C%22name%22%3A%22can_infect_all_age%22%2C%22node%22%3A%22b8fd34c9-8a6d-4595-9b0a-2fc703b886ff%22%2C%22set%22%3A3%2C%22unset%22%3A0%2C%22oepn_ended%22%3Afalse%2C%22label%22%3A%22Ledda%22%7D%2C%7B%22categories%22%3A%5B%7B%22label%22%3A%22%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1010%5Cu101a%5Cu103a%22%2C%22count%22%3A0%7D%2C%7B%22label%22%3A%22%5Cu1019%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A1%7D%2C%7B%22label%22%3A%22%5Cu1004%5Cu102b%5Cu1019%5Cu101e%5Cu102d%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A1%7D%5D%2C%22name%22%3A%22can_infect_all_age%22%2C%22node%22%3A%22b8fd34c9-8a6d-4595-9b0a-2fc703b886ff%22%2C%22set%22%3A2%2C%22unset%22%3A0%2C%22oepn_ended%22%3Afalse%2C%22label%22%3A%22Shamlapur%22%7D%5D%2C%22ruleset_uuid%22%3A%226e689c7a-69c4-4cac-b00d-b7c2432b2409%22%7D%2C%7B%22title%22%3A%22COVID-19+%5Cu1000%5Cu102d%5Cu102f%5Cu1000%5Cu102c%5Cu1000%5Cu103d%5Cu101a%5Cu103a%5Cu101b%5Cu1014%5Cu103a%5Cu1021%5Cu1000%5Cu1031%5Cu102c%5Cu1004%5Cu103a%5Cu1038%5Cu1006%5Cu102f%5Cu1036%5Cu1038%5Cu1014%5Cu100a%5Cu103a%5Cu1038%5Cu101c%5Cu1019%5Cu103a%5Cu1038%5Cu101e%5Cu100a%5Cu103a%5Cu101c%5Cu1030%5Cu1019%5Cu103e%5Cu102f%5Cu101b%5Cu1031%5Cu1038%5Cu1021%5Cu101b%5Cu101d%5Cu1031%5Cu1038%5Cu1000%5Cu103d%5Cu102c%5Cu101e%5Cu103d%5Cu102c%5Cu1038%5Cu1001%5Cu103c%5Cu1004%5Cu103a%5Cu1038%5Cu1016%5Cu103c%5Cu1005%5Cu103a%5Cu101e%5Cu100a%5Cu103a%5Cu1000%5Cu102d%5Cu102f%5Cu101e%5Cu1004%5Cu103a%5Cu101e%5Cu102d%5Cu1015%5Cu102b%5Cu101e%5Cu101c%5Cu102c%5Cu1038%5Cu104b%22%2C%22results%22%3A%7B%22categories%22%3A%5B%7B%22label%22%3A%22%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1010%5Cu101a%5Cu103a%22%2C%22count%22%3A6%7D%2C%7B%22label%22%3A%22%5Cu1019%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A7%7D%2C%7B%22label%22%3A%22%5Cu1004%5Cu102b%5Cu1019%5Cu101e%5Cu102d%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A2%7D%5D%2C%22name%22%3A%22social_distancing%22%2C%22node%22%3A%227d9ca1b5-2c4a-4a03-8264-c53ff3e66304%22%2C%22set%22%3A15%2C%22unset%22%3A0%2C%22oepn_ended%22%3Afalse%7D%2C%22results_by_gender%22%3A%5B%7B%22categories%22%3A%5B%7B%22label%22%3A%22%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1010%5Cu101a%5Cu103a%22%2C%22count%22%3A5%7D%2C%7B%22label%22%3A%22%5Cu1019%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A6%7D%2C%7B%22label%22%3A%22%5Cu1004%5Cu102b%5Cu1019%5Cu101e%5Cu102d%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A1%7D%5D%2C%22name%22%3A%22social_distancing%22%2C%22node%22%3A%227d9ca1b5-2c4a-4a03-8264-c53ff3e66304%22%2C%22set%22%3A12%2C%22unset%22%3A0%2C%22oepn_ended%22%3Afalse%2C%22label%22%3A%22Male%22%7D%2C%7B%22categories%22%3A%5B%7B%22label%22%3A%22%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1010%5Cu101a%5Cu103a%22%2C%22count%22%3A1%7D%2C%7B%22label%22%3A%22%5Cu1019%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A1%7D%2C%7B%22label%22%3A%22%5Cu1004%5Cu102b%5Cu1019%5Cu101e%5Cu102d%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A1%7D%5D%2C%22name%22%3A%22social_distancing%22%2C%22node%22%3A%227d9ca1b5-2c4a-4a03-8264-c53ff3e66304%22%2C%22set%22%3A3%2C%22unset%22%3A0%2C%22oepn_ended%22%3Afalse%2C%22label%22%3A%22Female%22%7D%5D%2C%22results_by_hub%22%3A%5B%7B%22categories%22%3A%5B%7B%22label%22%3A%22%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1010%5Cu101a%5Cu103a%22%2C%22count%22%3A3%7D%2C%7B%22label%22%3A%22%5Cu1019%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A1%7D%2C%7B%22label%22%3A%22%5Cu1004%5Cu102b%5Cu1019%5Cu101e%5Cu102d%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A2%7D%5D%2C%22name%22%3A%22social_distancing%22%2C%22node%22%3A%227d9ca1b5-2c4a-4a03-8264-c53ff3e66304%22%2C%22set%22%3A6%2C%22unset%22%3A0%2C%22oepn_ended%22%3Afalse%2C%22label%22%3A%22Burmapara%22%7D%2C%7B%22categories%22%3A%5B%7B%22label%22%3A%22%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1010%5Cu101a%5Cu103a%22%2C%22count%22%3A1%7D%2C%7B%22label%22%3A%22%5Cu1019%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A0%7D%2C%7B%22label%22%3A%22%5Cu1004%5Cu102b%5Cu1019%5Cu101e%5Cu102d%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A0%7D%5D%2C%22name%22%3A%22social_distancing%22%2C%22node%22%3A%227d9ca1b5-2c4a-4a03-8264-c53ff3e66304%22%2C%22set%22%3A1%2C%22unset%22%3A0%2C%22oepn_ended%22%3Afalse%2C%22label%22%3A%22Jadimora%22%7D%2C%7B%22categories%22%3A%5B%7B%22label%22%3A%22%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1010%5Cu101a%5Cu103a%22%2C%22count%22%3A0%7D%2C%7B%22label%22%3A%22%5Cu1019%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A3%7D%2C%7B%22label%22%3A%22%5Cu1004%5Cu102b%5Cu1019%5Cu101e%5Cu102d%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A0%7D%5D%2C%22name%22%3A%22social_distancing%22%2C%22node%22%3A%227d9ca1b5-2c4a-4a03-8264-c53ff3e66304%22%2C%22set%22%3A3%2C%22unset%22%3A0%2C%22oepn_ended%22%3Afalse%2C%22label%22%3A%22Jamtoli%22%7D%2C%7B%22categories%22%3A%5B%7B%22label%22%3A%22%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1010%5Cu101a%5Cu103a%22%2C%22count%22%3A1%7D%2C%7B%22label%22%3A%22%5Cu1019%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A2%7D%2C%7B%22label%22%3A%22%5Cu1004%5Cu102b%5Cu1019%5Cu101e%5Cu102d%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A0%7D%5D%2C%22name%22%3A%22social_distancing%22%2C%22node%22%3A%227d9ca1b5-2c4a-4a03-8264-c53ff3e66304%22%2C%22set%22%3A3%2C%22unset%22%3A0%2C%22oepn_ended%22%3Afalse%2C%22label%22%3A%22Ledda%22%7D%2C%7B%22categories%22%3A%5B%7B%22label%22%3A%22%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1010%5Cu101a%5Cu103a%22%2C%22count%22%3A1%7D%2C%7B%22label%22%3A%22%5Cu1019%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A1%7D%2C%7B%22label%22%3A%22%5Cu1004%5Cu102b%5Cu1019%5Cu101e%5Cu102d%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A0%7D%5D%2C%22name%22%3A%22social_distancing%22%2C%22node%22%3A%227d9ca1b5-2c4a-4a03-8264-c53ff3e66304%22%2C%22set%22%3A2%2C%22unset%22%3A0%2C%22oepn_ended%22%3Afalse%2C%22label%22%3A%22Shamlapur%22%7D%5D%2C%22ruleset_uuid%22%3A%22905d522b-a222-4a38-a13b-0ea9a4330590%22%7D%2C%7B%22title%22%3A%22%5Cu1024%5Cu1021%5Cu101b%5Cu1031%5Cu1038%5Cu1015%5Cu1031%5Cu102b%5Cu103a%5Cu1021%5Cu1001%5Cu103c%5Cu1031%5Cu1021%5Cu1014%5Cu1031%5Cu1000%5Cu102c%5Cu101c%5Cu1021%5Cu1010%5Cu103d%5Cu1004%5Cu103a%5Cu1038%5Cu101e%5Cu1004%5Cu103a%5Cu101e%5Cu100a%5Cu103a%5Cu1005%5Cu100a%5Cu103a%5Cu1038%5Cu1000%5Cu1019%5Cu103a%5Cu1038%5Cu1019%5Cu103b%5Cu102c%5Cu1038%5Cu1000%5Cu102d%5Cu102f%5Cu101c%5Cu102d%5Cu102f%5Cu1000%5Cu103a%5Cu1014%5Cu102c%5Cu1015%5Cu103c%5Cu102e%5Cu1038%5Cu1021%5Cu102d%5Cu1019%5Cu103a%5Cu1010%5Cu103d%5Cu1004%5Cu103a%5Cu1014%5Cu1031%5Cu1015%5Cu102b%5Cu101e%5Cu101c%5Cu1031%5Cu102c%5Cu104b%22%2C%22results%22%3A%7B%22categories%22%3A%5B%7B%22label%22%3A%22%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1010%5Cu101a%5Cu103a%22%2C%22count%22%3A9%7D%2C%7B%22label%22%3A%22%5Cu1019%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A6%7D%5D%2C%22name%22%3A%22staying_home%22%2C%22node%22%3A%226ecf9c8e-052f-4e49-93eb-430fce0d98f0%22%2C%22set%22%3A15%2C%22unset%22%3A0%2C%22oepn_ended%22%3Afalse%7D%2C%22results_by_gender%22%3A%5B%7B%22categories%22%3A%5B%7B%22label%22%3A%22%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1010%5Cu101a%5Cu103a%22%2C%22count%22%3A8%7D%2C%7B%22label%22%3A%22%5Cu1019%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A4%7D%5D%2C%22name%22%3A%22staying_home%22%2C%22node%22%3A%226ecf9c8e-052f-4e49-93eb-430fce0d98f0%22%2C%22set%22%3A12%2C%22unset%22%3A0%2C%22oepn_ended%22%3Afalse%2C%22label%22%3A%22Male%22%7D%2C%7B%22categories%22%3A%5B%7B%22label%22%3A%22%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1010%5Cu101a%5Cu103a%22%2C%22count%22%3A1%7D%2C%7B%22label%22%3A%22%5Cu1019%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A2%7D%5D%2C%22name%22%3A%22staying_home%22%2C%22node%22%3A%226ecf9c8e-052f-4e49-93eb-430fce0d98f0%22%2C%22set%22%3A3%2C%22unset%22%3A0%2C%22oepn_ended%22%3Afalse%2C%22label%22%3A%22Female%22%7D%5D%2C%22results_by_hub%22%3A%5B%7B%22categories%22%3A%5B%7B%22label%22%3A%22%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1010%5Cu101a%5Cu103a%22%2C%22count%22%3A3%7D%2C%7B%22label%22%3A%22%5Cu1019%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A3%7D%5D%2C%22name%22%3A%22staying_home%22%2C%22node%22%3A%226ecf9c8e-052f-4e49-93eb-430fce0d98f0%22%2C%22set%22%3A6%2C%22unset%22%3A0%2C%22oepn_ended%22%3Afalse%2C%22label%22%3A%22Burmapara%22%7D%2C%7B%22categories%22%3A%5B%7B%22label%22%3A%22%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1010%5Cu101a%5Cu103a%22%2C%22count%22%3A1%7D%2C%7B%22label%22%3A%22%5Cu1019%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A0%7D%5D%2C%22name%22%3A%22staying_home%22%2C%22node%22%3A%226ecf9c8e-052f-4e49-93eb-430fce0d98f0%22%2C%22set%22%3A1%2C%22unset%22%3A0%2C%22oepn_ended%22%3Afalse%2C%22label%22%3A%22Jadimora%22%7D%2C%7B%22categories%22%3A%5B%7B%22label%22%3A%22%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1010%5Cu101a%5Cu103a%22%2C%22count%22%3A2%7D%2C%7B%22label%22%3A%22%5Cu1019%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A1%7D%5D%2C%22name%22%3A%22staying_home%22%2C%22node%22%3A%226ecf9c8e-052f-4e49-93eb-430fce0d98f0%22%2C%22set%22%3A3%2C%22unset%22%3A0%2C%22oepn_ended%22%3Afalse%2C%22label%22%3A%22Jamtoli%22%7D%2C%7B%22categories%22%3A%5B%7B%22label%22%3A%22%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1010%5Cu101a%5Cu103a%22%2C%22count%22%3A1%7D%2C%7B%22label%22%3A%22%5Cu1019%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A2%7D%5D%2C%22name%22%3A%22staying_home%22%2C%22node%22%3A%226ecf9c8e-052f-4e49-93eb-430fce0d98f0%22%2C%22set%22%3A3%2C%22unset%22%3A0%2C%22oepn_ended%22%3Afalse%2C%22label%22%3A%22Ledda%22%7D%2C%7B%22categories%22%3A%5B%7B%22label%22%3A%22%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1010%5Cu101a%5Cu103a%22%2C%22count%22%3A2%7D%2C%7B%22label%22%3A%22%5Cu1019%5Cu101f%5Cu102f%5Cu1010%5Cu103a%5Cu1018%5Cu1030%5Cu1038%22%2C%22count%22%3A0%7D%5D%2C%22name%22%3A%22staying_home%22%2C%22node%22%3A%226ecf9c8e-052f-4e49-93eb-430fce0d98f0%22%2C%22set%22%3A2%2C%22unset%22%3A0%2C%22oepn_ended%22%3Afalse%2C%22label%22%3A%22Shamlapur%22%7D%5D%2C%22ruleset_uuid%22%3A%22c1729949-e772-4217-a088-bb71c5d6ef8f%22%7D%5D%7D</div>
+
+<div id="vueApp">
+  
+  <span v-if="sample_json != ''">
+    <div v-for="(q, qi) in sample_json.questions">
+      
+      <div class="card">
+        
+        <p><b>{{q.title}}</b></p>
+
+        <div class="button_container">
+          <span>
+            <span 
+              class="state_button noselect" 
+              @click="changeState(q, 'statistics', qi)"
+              v-bind:class="{active_button: (sample_json.questions[qi].vstate == 'statistics')}"
+            >Statistics</span>
+          </span>
+          <span v-if="q.results_by_gender.length > 0">
+            <span 
+              class="state_button noselect"
+              @click="changeState(q, 'gender', qi)"
+              v-bind:class="{active_button: (sample_json.questions[qi].vstate == 'gender')}"
+            >Gender</span>
+          </span>
+          <span v-if="q.results_by_hub.length > 0">
+            <span
+              class="state_button noselect"
+              @click="changeState(q, 'hub', qi)"
+              v-bind:class="{active_button: (sample_json.questions[qi].vstate == 'hub')}"
+            >Hub</span>
+          </span>
+        </div>
+
+        <hr>
+
+        <span v-if="sample_json.questions[qi].vstate == 'statistics'">
+          <p v-for="(a, i) in q.results.categories" class="answer_box">
+            <span class="answer_text">{{a.label}}</span>
+            <br>
+
+            <span class="answer_bar w3-light-grey w3-round" style="display: inline-block;">
+              <span class="answer_bar_fill w3-container w3-round"
+                v-bind:style="{width: a.percent + '%', backgroundColor: newColor[qi%3]}"></span>
+            </span>
+
+            <span class="answer_percent" style="color:rgb(0, 0, 0)">
+              <b>{{Math.floor(a.percent)}}%</b>
+            </span>
+          </p>
+
+          <!-- <div style="width: 100%; height: 250px;">
+            <vue-word-cloud
+              :words="[['romance', 19], ['horror', 3], ['fantasy', 7], ['adventure', 3]]"
+              :color="([, weight]) => weight > 10 ? 'DeepPink' : weight > 5 ? 'RoyalBlue' : 'Indigo'"
+              font-family="Roboto"
+            />
+          </div> -->
+
+        </span>
+
+      <!-- <span v-if="sample_json.questions[qi].vstate == 'statistics' && 
+                  q.results.open_ended == true">
+
+        <span id="myCloud" v-for="a in q.results.categories">
+
+        </span>
+        <p v-for="a in q.results.categories">
+          {{a.label}}
+          <br>
+          <progress max="100" v-bind:value="a.percent"></progress>
+        </p>
+
+        <script>
+          var word_list = [];
+          word_list.push({text: a.label, weight: a.percent, html: {"data-tooltip": a.percent}});
+
+          $(function() {
+            $("#myCloud").jQCloud(word_list, {
+              shape: "rectangular",
+              autoResize: true
+            });
+          });
+        </script>
+      </span> -->
+        
+        <span v-if="q.vstate == 'hub'">
+          <span v-for="hub in q.results_by_hub" class="answer_box">
+            
+            <span class="answer_tag">
+              <b>{{hub.label}}</b>
+            </span>
+
+            <br>
+            
+            <p v-for="(a, i) in hub.categories" class="answer_box">
+              
+              <span class="answer_text">{{a.label}}</span>
+              <br>
+              
+              <span class="answer_bar w3-light-grey w3-round" style="display: inline-block;">
+                <span class="answer_bar_fill w3-container w3-round"
+                  v-bind:style="{width: a.percent + '%', backgroundColor: newColor[qi%3]}"></span>
+              </span>
+  
+              <span class="answer_percent" style="color:rgb(0, 0, 0)">
+                <b>{{Math.floor(a.percent)}}%</b>
+              </span>
+
+            </p>
+          </span>
+        </span>
+
+        <span v-if="q.vstate == 'gender'">
+          <span v-for="gender in q.results_by_gender" class="answer_box">
+            
+            <span class="answer_tag">
+              <b>{{gender.label}}</b>
+            </span>
+
+            <br>
+
+            <p v-for="(a, i) in gender.categories" class="answer_box">
+              <span class="answer_text">{{a.label}}</span>
+              <br>
+              
+              <span class="answer_bar w3-light-grey w3-round" style="display: inline-block;">
+                <span class="answer_bar_fill w3-container w3-round"
+                  v-bind:style="{width: a.percent + '%', backgroundColor: newColor[qi%3]}"></span>
+              </span>
+  
+              <span class="answer_percent" style="color:rgb(0, 0, 0)">
+                <b>{{Math.floor(a.percent)}}%</b>
+              </span>
+
+            </p>
+
+          </span>
+        </span>
+
+      </div>
+
+    </div>
+  </span>
+
+</div>
+
+<script>
+var app = new Vue({
+  el: '#vueApp',
+  data: {
+    message: 'Hello World',
+    sample_json: "",
+    state: "none",
+    current_division: "",
+    translation: {
+      en: {
+        division_total_poll: "%n people responded"
+      }
+    },
+    newColor: ["#009A17", "#FFD100", "#E4002B"],
+    colorset: ["#56C6FC", "#FF5D5D", "#4CBCA7", "#FFC95D"],
+    colorset2: ["#56C6FC", "#FF5D5D", "#4CBCA7", "#FFC95D"]
+  },
+  methods: {
+    activate() {
+      this.message = this.sample_json.id;
+
+      // Re-define Data Structure
+      for(var i = 0; i < this.sample_json.questions.length; i++){
+        Vue.set(this.sample_json.questions[i], 'vstate', "statistics");
+
+        // Statistics
+        for(var j = 0; j < this.sample_json.questions[i].results.categories.length; j++){
+          var x = this.sample_json.questions[i].results.set;
+          var y = this.sample_json.questions[i].results.categories[j].count;
+          var z = 0; if(x > y && y > 0){z = 100 / (x / y);}
+          Vue.set(this.sample_json.questions[i].results.categories[j], 'percent', z);
+
+        }
+
+        // Age
+        for(var j = 0; j < this.sample_json.questions[i].results_by_hub.length; j++){
+          var x = this.sample_json.questions[i].results_by_hub[j].set;
+          for(var k = 0; k < this.sample_json.questions[i].results_by_hub[j].categories.length; k++){
+            var y = this.sample_json.questions[i].results_by_hub[j].categories[k].count;
+            var z = 0; if(x > y && y > 0){z = 100 / (x / y);}
+            Vue.set(this.sample_json.questions[i].results_by_hub[j].categories[k], 'percent', z);
+          }
+        }
+
+        // Gender
+        for(var j = 0; j < this.sample_json.questions[i].results_by_gender.length; j++){
+          var x = this.sample_json.questions[i].results_by_gender[j].set;
+          for(var k = 0; k < this.sample_json.questions[i].results_by_gender[j].categories.length; k++){
+            var y = this.sample_json.questions[i].results_by_gender[j].categories[k].count;
+            var z = 0; if(x > y && y > 0){z = 100 / (x / y);}
+            Vue.set(this.sample_json.questions[i].results_by_gender[j].categories[k], 'percent', z);
+          }
+        }
+
+      }
+    },
+    changeState(com, state, qid) {
+      com.vstate = state;
+    },
+  },
+  mounted() {
+    var data_pack = document.getElementById("data_pack").innerHTML;
+    this.sample_json = JSON.parse(unescape(data_pack));
+    setTimeout(() => this.activate(), 100);
+  }
+});
+</script>
+</body>
+</html>

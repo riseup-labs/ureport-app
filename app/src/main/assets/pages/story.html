@@ -1,0 +1,329 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="../font-my/font.css" rel="stylesheet" />
+        <link href="../css/story.css" rel="stylesheet" />
+        <script src="../js/vue.js" type="text/javascript"></script>
+        <link href="../css/lc_switch.css" rel="stylesheet" />
+        <script src="../js/jquery.js" type="text/javascript"></script>
+        <script src="../js/lc_switch.js" type="text/javascript"></script>
+
+<style>
+body {
+    font-family: cherry_unicoderegular, Arial, Helvetica, sans-serif;
+}
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Opera and Firefox */
+}
+.zoom-holder {
+    position: fixed;
+    left: 0px;
+    /* bottom: 35px; */
+    bottom: 48px;
+    width: 110px;
+    height: 40px;
+    background-color: rgba(252, 252, 252, 1);
+    border-radius: 0 16px 16px 0;
+    box-shadow: 2px 4px 6px #888888;
+    color: white;
+}
+
+.zoom-holder img {
+    padding-top: 8px;
+    height: 22px;
+}
+
+.container {
+    margin-bottom: 80px;
+}
+
+.language_switch {
+    position: absolute;
+    right: 30px;
+    top: 16px;
+}
+
+.lcs_off .lcs_cursor {
+    background-image: linear-gradient(#21F619, #218F00);
+}
+</style>
+</head>
+<body>
+    <br>
+<div style="display: none;">
+    <!-- Store Original Data -->
+    <div id="title_lang_1">#Title_Lang_1</div>
+    <div id="title_lang_2">#Title_Lang_2</div>
+    <div id="title_lang_3">#Title_Lang_3</div>
+    <div id="body_lang_1">#Body_Lang_1</div>
+    <div id="body_lang_2">#Body_Lang_2</div>
+    <div id="body_lang_3">#Body_Lang_3</div>
+</div>
+<div style="display: none;">
+    <!-- Audio Player -->
+    <audio id="audio_zoom_in">
+        <source src="button_click_yes.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="audio_zoom_out">
+        <source src="zoom_button_click.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="audio_change">
+        <source src="setting_button_change.mp3" type="audio/mpeg">
+    </audio>
+</div>
+<div id="vue-app">
+    <div class="container">
+        <div class="language_switch">
+            <input id="change_lang" type="checkbox" name="change_lang" value="english" />
+        </div>
+        <div class="date_box">#DateData</div>
+        <div id="sp_0" class="tbox title" v-on:click="textToSpeech(0)">#TitleData</div>
+        <hr>
+
+        <div v-if="video_path != '' && video_path != '::video' + '_' + 'path::'">
+            <br>
+            <video id="videoPlayer" preload="metadata" width="95%" poster="#ImageFile" controls>
+                <source v-bind:src="video_path">
+            </video>
+        </div>
+        <div v-else>
+            <div class="image_box"><img src="#ImageFile"></div>
+        </div>
+        
+        <div id="sourceText" style="display: none;">#TextData</div>
+        <div class="textbox" v-bind:style="{ fontSize: font_size + 'px' }">
+            <span v-for="(item,index) in line_array">
+                <span class="tbox" :id="'sp_' + index" v-if="index != 0" v-html="item" v-on:click="textToSpeech(index)"></span><span v-if="index != 0">{{line_spliter}}</span>
+            </span>
+
+            
+        </div>
+    </div>
+    <div class="zoom-holder">
+        &nbsp;&nbsp;&nbsp;
+        <img src="../images/v1_story_zoom_in.png" v-on:click="zoomIn" v-bind:style="{ opacity: zoomInButton }">
+        &nbsp;&nbsp;&nbsp;
+        <img src="../images/v1_story_zoom_out.png" v-on:click="zoomOut" v-bind:style="{ opacity: zoomOutButton }">
+    </div>
+</div>
+<br><br>
+<br><br>
+<script>
+
+
+
+var vueApp = new Vue({
+    el: '#vue-app',
+    data: {
+        storyTitle: "#TitleData",
+        line_array: [],
+        last_index: 0,
+        line_spliter: "::spliter::",
+        stop_flag: false,
+        font_size: 16,
+        zoomInButton: 1,
+        zoomOutButton: 0.5,
+        click_locked: 0,
+        current_lang: "::current_lang::",
+        video_path: "::video_path::",
+        lang_1_key: "::lang_1_key::",
+        lang_1_text: "::lang_1_text::",
+        lang_2_key: "::lang_2_key::",
+        lang_2_text: "::lang_2_text::",
+        lang_3_key: "::lang_3_key::",
+        lang_3_text: "::lang_3_text::",
+    },
+    methods: {
+        activate: function() {
+            var sourceText = document.getElementById("sourceText").innerHTML;
+            this.line_array = sourceText.split(this.line_spliter);
+            this.line_array.unshift(this.storyTitle);
+
+        },
+        textToSpeech: function(index) {
+            if(this.click_locked == 1){return;}
+
+            var textData = this.filterText(this.line_array[index]);
+            if(typeof SurveyorStory !== 'undefined'){
+                SurveyorStory.ttsData(textData);
+            }
+            this.last_index = index;
+
+            // Set Background Color for 1 Second
+            document.getElementById("sp_"+vueApp.last_index).style.backgroundColor = "#a5d6a7";
+            setTimeout(function(){ 
+                document.getElementById("sp_"+vueApp.last_index).style.backgroundColor = "";
+                vueApp.click_locked = 0;
+            }, 1000);
+
+            this.click_locked = 1;
+
+            console.log("Playing: "+textData);
+        },
+        zoomIn: function() {
+            if(this.font_size < 32){
+                this.font_size = this.font_size + 4;
+                document.getElementById("audio_zoom_in").play();
+            }
+            this.zoomFix();
+        },
+        zoomOut: function() {
+            if(this.font_size > 16){
+                this.font_size = this.font_size - 4;
+                document.getElementById("audio_zoom_out").play();
+            }
+            this.zoomFix();
+        },
+        zoomFix: function() {
+            if(this.font_size == 16){
+                this.zoomOutButton = 0.5;
+                this.zoomInButton = 1;
+            }else if(this.font_size == 32){
+                this.zoomInButton = 0.5;
+                this.zoomOutButton = 1;
+            }else{
+                this.zoomInButton = 1;
+                this.zoomOutButton = 1;
+            }
+        },
+        playNow: function() {
+            this.textToSpeech(this.last_index);
+
+            var videoPlayer = document.getElementById("videoPlayer");
+            if(typeof videoPlayer !== 'undefined'){
+                if(!videoPlayer.paused){
+                    videoPlayer.pause();
+                }
+            }
+        },
+        stopTTS: function() {
+            console.log("Stop TTS");
+            if(typeof SurveyorStory !== 'undefined'){
+                SurveyorStory.stopTTS();
+            }
+        },
+        playNext: function() {
+            index = this.last_index;
+
+            if(typeof this.line_array[index+1] != undefined){
+
+                index = index + 1;
+                var textData = this.filterText(this.line_array[index]);
+                if(typeof SurveyorStory !== 'undefined'){
+                    SurveyorStory.ttsData(textData);
+                }
+                this.last_index = index;
+
+                document.getElementById("sp_"+vueApp.last_index).style.backgroundColor = "#a5d6a7";
+                setTimeout(function(){ 
+                    document.getElementById("sp_"+vueApp.last_index).style.backgroundColor = "";
+                }, 1500);
+
+                console.log("N-Playing: "+textData);
+            }else{
+                this.last_index = 0;
+            }
+        },
+        filterText: function(text) {
+            if(typeof text != undefined){
+                return text.replace(/(<([^>]+)>)/ig,"");
+            }else{
+                return "";
+            }
+        }
+    },
+    beforeMount() {
+        this.vstate = "loading_page";
+        this.activate();
+
+        // Langauge Change Button
+        setTimeout(function(){ 
+            $('#change_lang').lc_switch("English", vueApp.lang_2_text);
+            startChecker();
+
+            setTimeout(function(){ 
+                if(vueApp.current_lang == "en"){
+                    $('#change_lang').lcs_off();
+                }else{
+                    $('#change_lang').lcs_on();
+                }
+            }, 200);
+
+        }, 250);
+    }
+});
+
+var lang_code = "";
+var last_lang = "";
+var skipFirst = true;
+
+function startChecker() {
+    setInterval(function(){
+        lang_code = $('input[name=change_lang]:checked').val() ? vueApp.lang_2_key : "English";
+
+
+        if(lang_code != last_lang && lang_code != undefined){
+            // Language Changed : Trigger Native
+            console.log("Last: " + last_lang);
+            console.log("Lang: " + lang_code);
+            
+
+            if(skipFirst == true && lang_code != "" && last_lang == ""){
+                last_lang = $('input[name=change_lang]:checked').val() ? vueApp.lang_2_key : "English";
+                skipFirst = false;
+                return;
+            }
+
+            // Play Sound
+            document.getElementById("audio_change").play();
+
+            // Do Stuff
+            if(lang_code == "English"){
+                vueApp.storyTitle = document.getElementById("title_lang_1").innerHTML;
+                document.getElementById("sp_0").innerHTML = document.getElementById("title_lang_1").innerHTML;
+                document.getElementById("sourceText").innerHTML = document.getElementById("body_lang_1").innerHTML;
+                vueApp.line_spliter = ".";
+                if(typeof SurveyorStory !== 'undefined'){
+                    SurveyorStory.reloadLang("en");
+                }
+            }else{
+                vueApp.storyTitle = document.getElementById("title_lang_2").innerHTML;
+                document.getElementById("sp_0").innerHTML = document.getElementById("title_lang_2").innerHTML;
+                document.getElementById("sourceText").innerHTML = document.getElementById("body_lang_2").innerHTML;
+                vueApp.line_spliter = "။";
+                if(typeof SurveyorStory !== 'undefined'){
+                    SurveyorStory.reloadLang("my");
+                }
+            }
+
+            setTimeout(function(){ 
+                vueApp.activate();
+            }, 250);
+
+            last_lang = lang_code;
+        }
+    }, 100);
+}
+
+
+var videoPlayer = document.getElementById("videoPlayer");
+if(typeof videoPlayer !== 'undefined'){
+    videoPlayer.onplay = function() {
+        vueApp.stopTTS();
+    };
+}
+
+</script>
+
+
+</body>
+</html>

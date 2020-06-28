@@ -1,0 +1,186 @@
+<resources>
+    <string name="app_name">U-Report App</string>
+    <string name="support_email">support@rapidpro.io</string>
+
+    <!-- activity titles -->
+    <string name="title_activity_login">Sign in</string>
+    <string name="title_activity_create_account">Create Account</string>
+    <string name="title_activity_org_choose">Choose Organization</string>
+    <string name="title_activity_org">Organization</string>
+    <string name="title_activity_flow">Flow Details</string>
+    <string name="title_activity_run">Run Flow</string>
+    <string name="title_activity_audio">Capture Audio</string>
+    <string name="title_activity_video">Capture Video</string>
+    <string name="title_activity_location">Capture Location</string>
+
+    <!-- menu items and buttons -->
+    <string name="action_settings">Settings</string>
+    <string name="action_logout">Logout</string>
+    <string name="action_refresh">Refresh</string>
+    <string name="action_bug_report">Bug Report</string>
+    <string name="action_save">Save</string>
+    <string name="action_discard">Discard</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_start_flow">Start Flow</string>
+
+    <!-- confirmation prompts -->
+    <string name="confirm_org_download">Flows for this organization haven\'t been downloaded yet. Download all flows now?</string>
+    <string name="confirm_org_refresh">Refresh all flows for this organization?</string>
+    <string name="confirm_org_refresh_old">This organization\'s flows are too old to work with this version of Surveyor. Refresh all flows for this organization?</string>
+    <string name="confirm_bug_report">Oops, it looks like Surveyor is having difficulty. Would you like to send a bug report so we can look into it?</string>
+    <string name="confirm_submission_discard">Are you sure you want to discard the data collected?</string>
+    <string name="confirm_send_submissions">Are you sure you want to send submissions to the server?</string>
+
+    <!-- error messages -->
+    <string name="error_server_not_found">Server is unavailable. Please check your settings or try again later.</string>
+    <string name="error_server_failure">Server error, please try again later.</string>
+    <string name="error_invalid_login">Invalid login. Check your username and password and try again.</string>
+    <string name="error_fetching_org">Unable to fetch org details. Please check your settings or try again later.</string>
+    <string name="error_no_orgs">Sorry, your account doesn\'t have access to submit surveys. Check with your system administrator.</string>
+    <string name="error_org_refresh">A problem occurred whilst refreshing this org. Please try again later.</string>
+    <string name="error_submissions_send">A problem occurred whilst sending submissions to the server. Please try again later.</string>
+    <string name="error_google_api">A problem occurred connecting to the Google API. Please try again later.</string>
+
+    <!-- chat log messages -->
+    <string name="log_flow_complete">Flow complete</string>
+
+    <!-- chat media -->
+    <string name="request_image">Take a Photo</string>
+    <string name="request_video">Record a Video</string>
+    <string name="request_audio">Make a Recording</string>
+    <string name="request_gps">Share Location</string>
+
+    <!-- permission rationales -->
+    <string name="permission_camera">We need permission to access your camera in order to collect photos and videos.</string>
+    <string name="permission_record">We need permission to record audio to in order to collect audio recordings.</string>
+    <string name="permission_location">We need permission to access your location in order to collect GPS data.</string>
+    <string name="permission_storage">We need access to your storage in order to save your surveys that are in progress.</string>
+
+    <!-- media capturing -->
+    <string name="send_message">Send message</string>
+    <string name="tap_to_record">Tap to Record</string>
+    <string name="tap_to_capture">Tap to Capture</string>
+    <string name="waiting_for_gps">Waiting for GPS…</string>
+    <string name="latitude_longitude">Lat: %.3f Long: %.3f</string>
+    <string name="accuracy_meters">Accuracy: %d meters</string>
+
+    <!-- preferences -->
+    <string name="pref_default_host">https://rapidpro.ilhasoft.mobi</string>
+    <string name="pref_title_host">RapidPro Host</string>
+    <string name="pref_summary_host">The address for your RapidPro installation</string>
+
+    <!-- miscellaneous -->
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <plurals name="questions">
+        <item quantity="one">%d question</item>
+        <item quantity="other">%d questions</item>
+    </plurals>
+    <plurals name="submissions_sent">
+        <item quantity="one">%d submission sent</item>
+        <item quantity="other">%d submissions sent</item>
+    </plurals>
+
+    <!-- font icons -->
+    <string name="icon_camera_front">\ue146</string>
+    <string name="icon_camera_rear">\ue147</string>
+    <string name="icon_cloud_download">\ue0fb</string>
+    <string name="icon_folder">\ue101</string>
+    <string name="icon_forum">\ue04d</string>
+    <string name="icon_gps_fixed">\ue0a3</string>
+    <string name="icon_gps_off">\ue0a5</string>
+    <string name="icon_gps_not_fixed">\ue0a4</string>
+    <string name="icon_mic">\ue00f</string>
+    <string name="icon_place">\ue1f7</string>
+    <string name="icon_play_arrow">\ue01b</string>
+    <string name="icon_photo">\ue1a2</string>
+    <string name="icon_photo_camera">\ue1a4</string>
+    <string name="icon_send">\ue087</string>
+    <string name="icon_stop">\ue02a</string>
+    <string name="icon_videocam">\ue02e</string>
+    <string name="icon_volume_up">\ue033</string>
+
+    <!-- legacy stuff to be removed -->
+    <string name="title_activity_legacy">Legacy Submissions</string>
+    <string name="action_legacy_submissions">Legacy Submissions</string>
+    <string name="legacy_submissions_blurb">This version of the Surveyor app uses a newer flow engine but you can still submit data collected with the old engine by clicking the button below.</string>
+    <string name="error_legacy_submissions_submit">A problem occurred submitting legacy submissions.</string>
+
+    <!-- TODO clean up -->
+    <string name="submit_body">Submitting flows to the server.</string>
+    <string name="refresh_org">Refreshing organization details..</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_submit">Submit</string>
+    <string name="pending_summary_flow">You have pending submissions for this flow to save on the server.</string>
+    <string name="pending_summary">You have pending submissions to save on the server.</string>
+    <string name="one_moment">One Moment</string>
+    <string name="unsupported_version">Your version of Surveyor is too old to run these flows. Would you like to download the latest version?</string>
+    <string name="please_login_again">Please login to your account again.</string>
+    <string name="transition_chat">transition_chat</string>
+    <string name="intro_message">Intro message</string>
+    <string name="stop">Stop Recording</string>
+    <string name="record">Record</string>
+    <string name="camera_error">Camera Error</string>
+    <string name="description_info">Description info</string>
+    <string name="tag_url">tag_url</string>
+    <string name="tag_handler">tag_handler</string>
+    <string name="tag_media_type">tag_media_type</string>
+    <string name="media_image">media_image</string>
+    <string name="media_video">media_video</string>
+    <string name="media_audio">media_audio</string>
+
+    <string name="tap_to_stop">Recording. Tap to stop.</string>
+    <string name="quit">Quit</string>
+    <string name="settings">Settings</string>
+    <string name="title_permissions">Permission</string>
+    <string name="location_unavailable">Your location is not currently available. Please try again.</string>
+    <string name="media_location">media_location</string>
+    <string name="made_recording">Made Recording</string>
+    <string name="error_invalid_host">Sorry, that is not a valid host. Try again.</string>
+    <string name="web_load_failure">Check your network connection and try again.</string>
+    <string name="error_network">Could not contact server. Check your network connection and try again.</string>
+
+    <string name="v1_new_version">This version of the application is too old, please download the new version.</string>
+    <string name="v1_new_version_dashboard">There is a new version available. Would you like to update the application?</string>
+    <string name="v1_settings">Settings</string>
+    <string name="v1_stories">Stories</string>
+    <string name="v1_ureport">Results</string>
+    <string name="v1_survey">Opinions</string>
+    <string name="v1_welcome_to_app">U-Report Application</string>
+    <string name="v1_story_see_more">See More</string>
+    <string name="v1_story_details">Story Details</string>
+
+    <string name="v1_ureport_division_rangpur">Rangpur Division</string>
+    <string name="v1_ureport_division_rajshahi">Rajshahi Division</string>
+    <string name="v1_ureport_division_dhaka">Dhaka Division</string>
+    <string name="v1_ureport_division_mymensing">Mymensingh Division</string>
+    <string name="v1_ureport_division_sylhet">Sylhet Division</string>
+    <string name="v1_ureport_division_khulna">Khulna Division</string>
+    <string name="v1_ureport_division_barisal">Barisal Division</string>
+    <string name="v1_ureport_division_chittagong">Chittagong Division</string>
+
+    <string name="v1_reporters_in_x">Reporters in %div</string>
+
+    <string name="v1_ureport_female">Female</string>
+    <string name="v1_ureport_male">Male</string>
+    <string name="v1_ureport_gender">Gender</string>
+    <string name="v1_ureport_location">Location</string>
+    <string name="v1_ureport_age">Age</string>
+    <string name="v1_ureport_statistics">Statistics</string>
+    <string name="v1_ureport_responses">Responses</string>
+    <string name="v1_ureport_participation_level">Participation Level</string>
+    <string name="v1_ureport_results">Results</string>
+    <string name="v1_ureport_other">Other</string>
+    <string name="v1_ureport_all">All Places</string>
+    <string name="v1_ureport_out_of">%sub responded out of %sup polled</string>
+    <string name="v1_ureport_poll_summary">Responses: %sup, Response Rate: %sub%</string>
+    <string name="v1_ureport_poll_summary_off">Responses: %sup</string>
+    <string name="v1_ureport_from_all">Reporters in All Places</string>
+    <string name="v1_ureport_keyword_text">Keywords</string>
+
+    <string name="v1_install_tts_en">Text To Speech Package Not Found. Please Install Language Packages.</string>
+    <string name="v1_install_tts_bn">Bangla Text To Speech Package Not Found. Please Install Bangla Language Package.</string>
+    <string name="v1_install_tts_my">Please install SM Myanmar TTS for Burmese Text to Speech.</string>
+
+
+</resources>

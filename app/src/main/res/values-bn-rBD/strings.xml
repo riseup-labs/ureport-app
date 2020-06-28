@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="yes">হ্যাঁ</string>
+    <string name="no">না</string>
+    <plurals name="questions">
+        <item quantity="one">%d প্রশ্ন</item>
+        <item quantity="other">%d প্রশ্ন</item>
+    </plurals>
+    <plurals name="submissions_sent">
+        <item quantity="one">%dটি মতামত জমা দেওয়া হয়েছে</item>
+        <item quantity="other">%dটি মতামত জমা দেওয়া হয়েছে</item>
+    </plurals>
+
+    <string name="app_name">U-Report App</string>
+    <string name="v1_settings">সেটিংস</string>
+    <string name="v1_stories">সমাচার</string>
+    <string name="v1_survey">মতামত</string>
+    <string name="v1_ureport">ফলাফল</string>
+    <string name="v1_welcome_to_app">U-Report Application</string>
+    <string name="v1_story_see_more">বিস্তারিত দেখো</string>
+    <string name="v1_story_details">সমাচার বিবরণ</string>
+
+    <string name="v1_ureport_division_rangpur">রংপুর বিভাগ</string>
+    <string name="v1_ureport_division_rajshahi">রাজশাহী বিভাগ</string>
+    <string name="v1_ureport_division_dhaka">ঢাকা বিভাগ</string>
+    <string name="v1_ureport_division_mymensing">ময়মনসিংহ বিভাগ</string>
+    <string name="v1_ureport_division_sylhet">সিলেট বিভাগ</string>
+    <string name="v1_ureport_division_khulna">খুলনা বিভাগ</string>
+    <string name="v1_ureport_division_barisal">বরিশাল বিভাগ</string>
+    <string name="v1_ureport_division_chittagong">চট্টগ্রাম বিভাগ</string>
+
+    <string name="v1_reporters_in_x">%div থেকে</string>
+    <string name="v1_ureport_participation_level">অংশগ্রহণের পরিমান</string>
+    <string name="v1_ureport_responses">জবাব দিয়েছে</string>
+    <string name="v1_ureport_other">অন্যান্য</string>
+    <string name="v1_ureport_female">মহিলা</string>
+    <string name="v1_ureport_male">পুরুষ</string>
+    <string name="v1_ureport_location">অবস্থান</string>
+    <string name="v1_ureport_gender">লিঙ্গ</string>
+    <string name="v1_ureport_results">ফলাফল</string>
+    <string name="v1_ureport_statistics">পরিসংখ্যান</string>
+    <string name="v1_ureport_age">বয়স</string>
+    <string name="v1_ureport_all">সকল স্থান</string>
+    <string name="v1_ureport_out_of">%sup জনের মধ্যে %sub জন উত্তর দিয়েছে</string>
+    <string name="v1_ureport_from_all">সকল স্থান থেকে</string>
+    <string name="v1_ureport_keyword_text">উত্তরগুলো</string>
+    <string name="v1_install_tts_my">বার্মিজ পাঠ্য থেকে স্পিচ করার জন্য দয়া করে SM Myanmar TTS ইনস্টল করুন</string>
+    <string name="v1_install_tts_bn">বাংলা Text to Speech প্যাকেজ পাওয়া যায় নি। দয়া করে বাংলা ভাষা প্যাকেজ ইনস্টল করুন।</string>
+    <string name="v1_install_tts_en">Text To Speech প্যাকেজ পাওয়া যায় নি। দয়া করে ভাষা প্যাকেজ ইনস্টল করুন।</string>
+    <string name="v1_ureport_poll_summary">সাড়া দিয়েছে: %sup, সাড়া দেয়ার হার: %sub%</string>
+    <string name="v1_ureport_poll_summary_off">সাড়া দিয়েছে: %sup</string>
+</resources>

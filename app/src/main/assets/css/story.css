@@ -1,0 +1,33 @@
+.container {
+    width: 90%;
+    margin-left: 5%;
+}
+
+.image_box img {
+    width: 90%;
+    margin-left: 5%;
+}
+
+.title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.date_box {
+    font-size: small;
+    padding-bottom: 10px;
+}
+
+.textbox {
+    text-align: left;
+    padding-top: 10px;
+}
+
+.tbox {
+    background-color: white;
+    -webkit-transition: background 0.5s linear;
+    -moz-transition: background 0.5s linear;
+    -ms-transition: background 0.5s linear;
+    -o-transition: background 0.5s linear;
+    transition: background 0.5s linear;
+}
