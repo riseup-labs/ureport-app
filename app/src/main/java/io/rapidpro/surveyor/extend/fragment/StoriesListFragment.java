@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,6 +70,8 @@ public class StoriesListFragment extends BaseFragment implements CustomAdapterSt
 
     RecyclerView recyclerView;
     String lang_code = "en";
+
+    int loadCount = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -138,6 +141,13 @@ public class StoriesListFragment extends BaseFragment implements CustomAdapterSt
         if(StaticMethods.isConnected(getContext())){
             //downloadStories();
             new LongOperation().execute();
+
+            // Refresh Timeout
+//            new Handler().postDelayed(() -> {
+//                if (storiesRefresh != null) {
+//                    storiesRefresh.setRefreshing(false);
+//                }
+//            }, 60000);
         }else{
             new CustomDialog(getContext()).displayNoInternetDialog(new CustomDialogInterface() {
                 @Override
@@ -156,6 +166,9 @@ public class StoriesListFragment extends BaseFragment implements CustomAdapterSt
         @Override
         protected String doInBackground(String... params) {
 
+            // Load Counter
+            loadCount = 0;
+
             // Download Stories
             String last_updated = getSurveyor().getPreferences().getString("story_date", "");
 
@@ -166,31 +179,28 @@ public class StoriesListFragment extends BaseFragment implements CustomAdapterSt
                 baseURL = StoriesApi.BASE_URL_RV;
             }
 
-            final OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                    .readTimeout(60, TimeUnit.SECONDS)
-                    .connectTimeout(60, TimeUnit.SECONDS)
-                    .build();
-
+            final OkHttpClient okHttpClient = StaticMethods.okHttpClient();
             retrofit = new Retrofit.Builder().baseUrl(baseURL).addConverterFactory(GsonConverterFactory.create()).client(okHttpClient).build();
             storiesApi = retrofit.create(StoriesApi.class);
             story_apiCall = storiesApi.getStories(last_updated, 100);
+            loadCount++;
             story_apiCall.enqueue(new Callback<story_api>() {
                 @Override
                 public void onResponse(Call<story_api> call, Response<story_api> response) {
-                    if(response.body() != null){
+                    loadCount--;
 
+                    if(response.body() != null){
 
                         String new_last_updated = response.body().getLast_updated();
 
                         try {
-                            playNotification(getSurveyor(), getContext(), R.raw.sync_complete);
                             getSurveyor().setPreference("story_date", new_last_updated);
                         } catch (Exception e) {
                             //
                         }
 
                         if(response.body().getData().size() == 0){
-                            if(storiesRefresh != null){storiesRefresh.setRefreshing(false);}
+                            //if(storiesRefresh != null){storiesRefresh.setRefreshing(false);}
 
                             // Refresh Images
                             // new MiniOperation().execute();
@@ -212,194 +222,166 @@ public class StoriesListFragment extends BaseFragment implements CustomAdapterSt
                         }
 
                         // Update Last Updated
-
-                        try {
-
-                            if (storiesRefresh != null) {
-                                storiesRefresh.setRefreshing(false);
-                            }
-
-                            localStories = storiesDao.getStoriesList();
-                            storiesAdapter = new CustomAdapterStories(getContext(), localStories, lang_code);
-                            storiesAdapter.setClickListener(itemClickListener);
-                            recyclerView.setAdapter(storiesAdapter);
-                            storiesAdapter.notifyDataSetChanged();
-
-                        } catch(Exception e) {
-                            //
-                        }
                     }else{
                         if(storiesRefresh != null){storiesRefresh.setRefreshing(false);}
-                        playNotification(getSurveyor(), getContext(), R.raw.sync_complete);
                     }
+
+                    // Check For Deleted Story
+                    final String story_delete_last_update = getSurveyor().getPreferences().getString("story_delete_last_update", "");
+                    StoriesApi storiesDeleteApi = retrofit.create(StoriesApi.class);
+                    Call<story_delete_api> storyDelete_apiCall = storiesDeleteApi.getDeletedStories(story_delete_last_update);
+                    loadCount++;
+                    storyDelete_apiCall.enqueue(new Callback<story_delete_api>() {
+                        @Override
+                        public void onResponse(Call<story_delete_api> call, Response<story_delete_api> response) {
+                            loadCount--;
+
+                            if (response.body().getData() != null) {
+                                List<story_delete_data> deleted_stories = response.body().getData();
+
+                                for (story_delete_data deleted : deleted_stories) {
+                                    if (storiesDao.doesStoryExists(deleted.getStory_id()) > 0) {
+                                        // Story Deleted on Server
+                                        storiesDao.deleteFromStoryById(deleted.getStory_id());
+                                    }
+                                }
+                            }
+
+                            List<StoriesLocal> storiesLocals = database.getStories().getStoriesList();
+
+                            //Collections.reverse(storiesLocals);
+                            for (StoriesLocal s : storiesLocals) {
+                                try {
+                                    // Download Story Image
+                                    if (s.getContent_image() == null) {
+                                        continue;
+                                    }
+                                    if (s.getContent_image().equals("")) {
+                                        continue;
+                                    }
+
+                                    Context context = getSurveyor().getApplicationContext();
+                                    String imageURL = s.getContent_image();
+
+                                    String file_path = "story_image_" + getMD5(imageURL);
+                                    String file_path_full = context.getFilesDir() + "/story_image_" + getMD5(imageURL);
+
+                                    File file = new File(file_path_full);
+                                    if (file.exists()) {
+                                        if (file.length() > 100 * 1024) {
+                                            // File with At Least 50 KB Data Exists: skip
+                                            continue;
+                                        }
+                                    }
+
+                                    loadCount++;
+                                    new Thread(() -> {
+                                        OkHttpClient okHttpClient2 = StaticMethods.okHttpClient();
+                                        okhttp3.Request okRequest = new okhttp3.Request.Builder().url(imageURL).build();
+                                        okhttp3.Response okResponse = null;
+                                        try {
+                                            okResponse = okHttpClient2.newCall(okRequest).execute();
+                                            InputStream inputStream = okResponse.body().byteStream();
+                                            try (OutputStream output = context.openFileOutput(file_path, context.MODE_PRIVATE)) {
+                                                loadCount--;
+                                                byte[] buffer = new byte[4 * 1024]; // or other buffer size
+                                                int read;
+                                                while ((read = inputStream.read(buffer)) != -1) {
+                                                    output.write(buffer, 0, read);
+                                                }
+                                                output.flush();
+                                            }
+
+                                            inputStream.close();
+
+                                        } catch (Exception e) {
+                                            loadCount--;
+                                            e.printStackTrace();
+                                        }
+                                    }).start();
+                                } catch (Exception e1) {
+                                    //
+                                }
+
+                            }
+
+                            for (StoriesLocal s : storiesLocals) {
+                                try {
+                                    // Download Story Video
+                                    if (s.getStory_video() == null) {
+                                        continue;
+                                    }
+                                    if (s.getStory_video().equals("")) {
+                                        continue;
+                                    }
+
+                                    Context context = getSurveyor().getApplicationContext();
+                                    String videoURL = s.getStory_video();
+
+                                    String file_path = "story_video_" + getMD5(videoURL);
+                                    String file_path_full = context.getFilesDir() + "/story_video_" + getMD5(videoURL);
+
+                                    File file = new File(file_path_full);
+                                    if (file.exists()) {
+                                        if (file.length() > 100 * 1024) {
+                                            // File with At Least 50 KB Data Exists: skip
+                                            continue;
+                                        }
+                                    }
+
+                                    loadCount++;
+                                    new Thread(() -> {
+                                        OkHttpClient okHttpClient3 = StaticMethods.okHttpClient();
+                                        okhttp3.Request okRequest = new okhttp3.Request.Builder().url(videoURL).build();
+                                        okhttp3.Response okResponse = null;
+
+                                        try {
+                                            okResponse = okHttpClient3.newCall(okRequest).execute();
+                                            InputStream inputStream = okResponse.body().byteStream();
+
+                                            try (OutputStream output = context.openFileOutput(file_path, context.MODE_PRIVATE)) {
+                                                loadCount--;
+                                                byte[] buffer = new byte[4 * 1024]; // or other buffer size
+                                                int read;
+                                                while ((read = inputStream.read(buffer)) != -1) {
+                                                    output.write(buffer, 0, read);
+                                                }
+                                                output.flush();
+                                            }
+
+                                            inputStream.close();
+                                        } catch (Exception e) {
+                                            loadCount--;
+                                            e.printStackTrace();
+                                        }
+                                    }).start();
+                                } catch (Exception e1) {
+                                    //
+                                }
+                            }
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<story_delete_api> call, Throwable t) {
+                            loadCount--;
+                        }
+
+                    });
                 }
 
                 @Override
                 public void onFailure(Call<story_api> call, Throwable t) {
+                    loadCount--;
                     try {
                         if (storiesRefresh != null) {
                             storiesRefresh.setRefreshing(false);
                         }
-                        playNotification(getSurveyor(), getContext(), R.raw.sync_complete);
                     } catch (Exception e) {
                         //
                     }
                 }
             });
-
-            // Check For Deleted Story
-            final String story_delete_last_update = getSurveyor().getPreferences().getString("story_delete_last_update", "");
-            StoriesApi storiesDeleteApi = retrofit.create(StoriesApi.class);
-            Call<story_delete_api> storyDelete_apiCall = storiesDeleteApi.getDeletedStories(story_delete_last_update);
-            storyDelete_apiCall.enqueue(new Callback<story_delete_api>() {
-
-                @Override
-                public void onResponse(Call<story_delete_api> call, Response<story_delete_api> response) {
-                    if(response.body().getData() == null){
-                        return;
-                    }
-
-                    List<story_delete_data> deleted_stories = response.body().getData();
-
-                    for(story_delete_data deleted: deleted_stories) {
-                        if(storiesDao.doesStoryExists(deleted.getStory_id()) > 0){
-                            // Story Deleted on Server
-                            storiesDao.deleteFromStoryById(deleted.getStory_id());
-                        }
-                    }
-
-                    // Update Story Delete Last_Update
-                    try {
-
-                        getSurveyor().setPreference("story_delete_last_update", response.body().getLast_updated());
-
-                        localStories = storiesDao.getStoriesList();
-                        storiesAdapter = new CustomAdapterStories(getContext(), localStories, lang_code);
-                        storiesAdapter.setClickListener(itemClickListener);
-                        recyclerView.setAdapter(storiesAdapter);
-                        storiesAdapter.notifyDataSetChanged();
-
-                        if (storiesRefresh != null) {
-                            storiesRefresh.setRefreshing(false);
-                        }
-
-                    } catch(Exception e) {
-                        //
-                    }
-
-                }
-
-                @Override
-                public void onFailure(Call<story_delete_api> call, Throwable t) {
-
-                }
-
-            });
-
-            List<StoriesLocal> storiesLocals = database.getStories().getStoriesList();
-
-            //Collections.reverse(storiesLocals);
-            for(StoriesLocal s: storiesLocals){
-                try {
-                    // Download Story Image
-                    if (s.getContent_image() == null) {
-                        continue;
-                    }
-                    if (s.getContent_image().equals("")) {
-                        continue;
-                    }
-
-                    Context context = getSurveyor().getApplicationContext();
-                    String imageURL = s.getContent_image();
-
-                    String file_path = "story_image_" + getMD5(imageURL);
-                    String file_path_full = context.getFilesDir() + "/story_image_" + getMD5(imageURL);
-
-                    File file = new File(file_path_full);
-                    if (file.exists()) {
-                        if (file.length() > 100 * 1024) {
-                            // File with At Least 50 KB Data Exists: skip
-                            continue;
-                        }
-                    }
-
-                    OkHttpClient okHttpClient2 = new OkHttpClient();
-                    okhttp3.Request okRequest = new okhttp3.Request.Builder().url(imageURL).build();
-                    okhttp3.Response okResponse = null;
-
-                    try {
-                        okResponse = okHttpClient2.newCall(okRequest).execute();
-                        InputStream inputStream = okResponse.body().byteStream();
-
-                        try (OutputStream output = context.openFileOutput(file_path, context.MODE_PRIVATE)) {
-                            byte[] buffer = new byte[4 * 1024]; // or other buffer size
-                            int read;
-                            while ((read = inputStream.read(buffer)) != -1) {
-                                output.write(buffer, 0, read);
-                            }
-                            output.flush();
-                        }
-
-                        inputStream.close();
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } catch (Exception e1) {
-                    //
-                }
-
-            }
-
-            for(StoriesLocal s: storiesLocals){
-                try {
-                    // Download Story Video
-                    if (s.getStory_video() == null) {
-                        continue;
-                    }
-                    if (s.getStory_video().equals("")) {
-                        continue;
-                    }
-
-                    Context context = getSurveyor().getApplicationContext();
-                    String videoURL = s.getStory_video();
-
-                    String file_path = "story_video_" + getMD5(videoURL);
-                    String file_path_full = context.getFilesDir() + "/story_video_" + getMD5(videoURL);
-
-                    File file = new File(file_path_full);
-                    if (file.exists()) {
-                        if (file.length() > 100 * 1024) {
-                            // File with At Least 50 KB Data Exists: skip
-                            continue;
-                        }
-                    }
-
-                    OkHttpClient okHttpClient3 = new OkHttpClient();
-                    okhttp3.Request okRequest = new okhttp3.Request.Builder().url(videoURL).build();
-                    okhttp3.Response okResponse = null;
-
-                    try {
-                        okResponse = okHttpClient3.newCall(okRequest).execute();
-                        InputStream inputStream = okResponse.body().byteStream();
-
-                        try (OutputStream output = context.openFileOutput(file_path, context.MODE_PRIVATE)) {
-                            byte[] buffer = new byte[4 * 1024]; // or other buffer size
-                            int read;
-                            while ((read = inputStream.read(buffer)) != -1) {
-                                output.write(buffer, 0, read);
-                            }
-                            output.flush();
-                        }
-
-                        inputStream.close();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } catch (Exception e1) {
-                    //
-                }
-            }
 
             return "images";
         }
@@ -408,15 +390,10 @@ public class StoriesListFragment extends BaseFragment implements CustomAdapterSt
         protected void onPostExecute(String result) {
             if (result.matches("images")){
 
-                try {
-                    localStories = storiesDao.getStoriesList();
-                    storiesAdapter = new CustomAdapterStories(getContext(), localStories, lang_code);
-                    storiesAdapter.setClickListener(itemClickListener);
-                    recyclerView.setAdapter(storiesAdapter);
-                    storiesAdapter.notifyDataSetChanged();
-                } catch(Exception e) {
-                    //
-                }
+                final Handler handler = new Handler();
+                handler.postDelayed(() -> {
+                    checkerLoop();
+                }, 1000);
 
             }
         }
@@ -428,9 +405,38 @@ public class StoriesListFragment extends BaseFragment implements CustomAdapterSt
         protected void onProgressUpdate(Void... values) {}
     }
 
+    void checkerLoop(){
+
+        try {
+            if(loadCount == 0) {
+                new Handler().postDelayed(() -> {
+                    if (storiesRefresh != null) {
+                        storiesRefresh.setRefreshing(false);
+                    }
+
+                    Log.d("Process", String.valueOf(loadCount));
+                    localStories = storiesDao.getStoriesList();
+                    storiesAdapter = new CustomAdapterStories(getContext(), localStories, lang_code);
+                    storiesAdapter.setClickListener(itemClickListener);
+                    recyclerView.setAdapter(storiesAdapter);
+                    storiesAdapter.notifyDataSetChanged();
+                    playNotification(getSurveyor(), getContext(), R.raw.sync_complete);
+                }, 2000);
+            }else{
+                Log.d("Process Pending Task", String.valueOf(loadCount));
+                new Handler().postDelayed(() -> {
+                    checkerLoop();
+                }, 1000);
+            }
+        } catch(Exception e) {
+            //
+        }
+    }
+
     @Override
     public boolean requireLogin() {
         return false;
     }
 }
+
 

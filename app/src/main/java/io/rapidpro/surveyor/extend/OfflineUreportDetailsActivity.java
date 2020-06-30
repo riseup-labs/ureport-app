@@ -4,42 +4,30 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.TextView;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.text.DecimalFormat;
-import java.util.List;
 
 import io.rapidpro.surveyor.R;
 import io.rapidpro.surveyor.SurveyorApplication;
 import io.rapidpro.surveyor.SurveyorPreferences;
 import io.rapidpro.surveyor.activity.BaseActivity;
-import io.rapidpro.surveyor.extend.adapter.CustomAdapterOpinionlist;
 import io.rapidpro.surveyor.extend.database.AppDatabase;
 import io.rapidpro.surveyor.extend.database.databaseConnection;
 import io.rapidpro.surveyor.extend.entity.dao.SurveyorDao;
 import io.rapidpro.surveyor.extend.entity.local.SurveyorLocal;
-import io.rapidpro.surveyor.extend.entity.local.UReportLocal;
-import io.rapidpro.surveyor.extend.entity.model.questions;
-import io.rapidpro.surveyor.extend.entity.model.results;
+import me.myatminsoe.mdetect.MDetect;
+import me.myatminsoe.mdetect.Rabbit;
 
 import static io.rapidpro.surveyor.extend.StaticMethods.playNotification;
 
@@ -161,6 +149,13 @@ public class OfflineUreportDetailsActivity extends BaseActivity {
         settings.setDomStorageEnabled(true);
         settings.setJavaScriptEnabled(true);
         settings.setDefaultTextEncodingName("utf-8");
+
+        if(lang_code.equals("my") && !MDetect.INSTANCE.isUnicode()){
+            // Place Zawgyi
+            if(StaticMethods.displayZawgyi()){
+                WebContent = Rabbit.uni2zg(WebContent);
+            }
+        }
 
         webView.loadDataWithBaseURL("file:///android_asset/ureport/index.html", WebContent, "text/html; charset=utf-8", "UTF-8", null);
 

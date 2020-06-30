@@ -202,11 +202,7 @@ public class SplashActivity extends BaseActivity {
         }
 
         // Check U-Report Offline Update
-        OkHttpClient okHttpClient0 = new OkHttpClient.Builder()
-                .connectTimeout(30, TimeUnit.SECONDS)
-                .readTimeout(30, TimeUnit.SECONDS)
-                .writeTimeout(30, TimeUnit.SECONDS)
-                .build();
+        OkHttpClient okHttpClient0 = StaticMethods.okHttpClient();
 
         Retrofit retrofit0 = new Retrofit.Builder().baseUrl(baseURL).client(okHttpClient0).addConverterFactory(GsonConverterFactory.create()).build();
 
@@ -425,11 +421,7 @@ public class SplashActivity extends BaseActivity {
 
 
 
-            OkHttpClient okHttpClient1 = new OkHttpClient.Builder()
-                    .connectTimeout(30, TimeUnit.SECONDS)
-                    .readTimeout(30, TimeUnit.SECONDS)
-                    .writeTimeout(30, TimeUnit.SECONDS)
-                    .build();
+            OkHttpClient okHttpClient1 = StaticMethods.okHttpClient();
 
             Retrofit retrofit1 = new Retrofit.Builder().baseUrl(baseURL).client(okHttpClient1).addConverterFactory(GsonConverterFactory.create()).build();
 
@@ -588,11 +580,7 @@ public class SplashActivity extends BaseActivity {
             });
 
             // Check For Deleted Story
-            OkHttpClient okHttpClient2 = new OkHttpClient.Builder()
-                    .connectTimeout(30, TimeUnit.SECONDS)
-                    .readTimeout(30, TimeUnit.SECONDS)
-                    .writeTimeout(30, TimeUnit.SECONDS)
-                    .build();
+            OkHttpClient okHttpClient2 = StaticMethods.okHttpClient();
 
             Retrofit retrofit2 = new Retrofit.Builder().baseUrl(baseURL).client(okHttpClient2).addConverterFactory(GsonConverterFactory.create()).build();
 
@@ -741,11 +729,7 @@ public class SplashActivity extends BaseActivity {
 
 
             // Check U-Report Update
-            OkHttpClient okHttpClient3 = new OkHttpClient.Builder()
-                    .connectTimeout(30, TimeUnit.SECONDS)
-                    .readTimeout(30, TimeUnit.SECONDS)
-                    .writeTimeout(30, TimeUnit.SECONDS)
-                    .build();
+            OkHttpClient okHttpClient3 = StaticMethods.okHttpClient();
 
             Retrofit retrofit3 = new Retrofit.Builder().baseUrl(baseURL).client(okHttpClient3).addConverterFactory(GsonConverterFactory.create()).build();
 
@@ -805,11 +789,7 @@ public class SplashActivity extends BaseActivity {
 
 
             // Check U-Report Offline Update
-            OkHttpClient okHttpClient4 = new OkHttpClient.Builder()
-                    .connectTimeout(30, TimeUnit.SECONDS)
-                    .readTimeout(30, TimeUnit.SECONDS)
-                    .writeTimeout(30, TimeUnit.SECONDS)
-                    .build();
+            OkHttpClient okHttpClient4 = StaticMethods.okHttpClient();
 
             Retrofit retrofit4 = new Retrofit.Builder().baseUrl(baseURL).client(okHttpClient4).addConverterFactory(GsonConverterFactory.create()).build();
 
@@ -989,7 +969,7 @@ public class SplashActivity extends BaseActivity {
             }
         }
 
-        OkHttpClient client = new OkHttpClient();
+        OkHttpClient client = StaticMethods.okHttpClient();
 
         /**
          * Simplified GET request call for OKHTTP

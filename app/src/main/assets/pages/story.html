@@ -124,7 +124,7 @@ body {
 var vueApp = new Vue({
     el: '#vue-app',
     data: {
-        storyTitle: "#TitleData",
+        storyTitle: "",
         line_array: [],
         last_index: 0,
         line_spliter: "::spliter::",
@@ -242,6 +242,13 @@ var vueApp = new Vue({
         }
     },
     beforeMount() {
+        // Do Stuff
+        if(this.current_lang == "en"){
+            this.storyTitle = document.getElementById("title_lang_1").innerHTML;
+        }else{
+            this.storyTitle = document.getElementById("title_lang_2").innerHTML;
+        }
+
         this.vstate = "loading_page";
         this.activate();
 

@@ -71,7 +71,7 @@ public class CustomAdapterStories extends RecyclerView.Adapter<CustomAdapterStor
             }
         }else if(lang_code.equals("my")){
 
-            if (!MDetect.INSTANCE.isUnicode() && !StaticMethods.disableZawgyi()){
+            if (!MDetect.INSTANCE.isUnicode() && StaticMethods.displayZawgyi()){
                 // Convert to Zawgyi
                 holder.storyTitle.setText(Rabbit.uni2zg(stories.get(position).getTitle_my()));
                 if(stories.get(position).getSubtitle_my() != null){
@@ -125,7 +125,8 @@ public class CustomAdapterStories extends RecyclerView.Adapter<CustomAdapterStor
 
             Glide.with(context)
                     .load(file_path)
-                    //.diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
                     .fitCenter()
                     .into(holder.storyImage);
         }

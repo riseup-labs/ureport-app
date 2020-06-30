@@ -43,6 +43,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.exoplayer2.ExoPlayer;
@@ -587,6 +588,8 @@ public class RunActivity extends BaseActivity {
                             case "image/jpeg":
                                 Glide.with(this)
                                         .asBitmap()
+                                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                        .skipMemoryCache(true)
                                         .load(new File(org.getDirectory(), file_name))
                                         .into(new CustomTarget<Bitmap>() {
                                             @Override
@@ -603,6 +606,8 @@ public class RunActivity extends BaseActivity {
                             case "audio/mp3":
                                 Glide.with(this)
                                         .asBitmap()
+                                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                        .skipMemoryCache(true)
                                         .load(R.drawable.v1_audio_thumbnail)
                                         .into(new CustomTarget<Bitmap>() {
                                             @Override
@@ -618,6 +623,8 @@ public class RunActivity extends BaseActivity {
                             case "video/mp4":
                                 Glide.with(this)
                                         .asBitmap()
+                                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                                        .skipMemoryCache(true)
                                         .load(R.drawable.v1_video_thumbnail)
                                         .into(new CustomTarget<Bitmap>() {
                                             @Override
@@ -916,6 +923,8 @@ public class RunActivity extends BaseActivity {
 
         Glide.with(this)
                 .load(image_path)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
                 .into(dialog_image);
 
         builder.setView(dialoglayout);

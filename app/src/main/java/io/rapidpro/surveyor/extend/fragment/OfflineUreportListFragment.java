@@ -108,10 +108,7 @@ public class OfflineUreportListFragment extends BaseFragment implements CustomAd
             baseURL = SurveyorApi.BASE_URL_RV;
         }
 
-        final OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .readTimeout(60, TimeUnit.SECONDS)
-                .connectTimeout(60, TimeUnit.SECONDS)
-                .build();
+        final OkHttpClient okHttpClient = StaticMethods.okHttpClient();
 
         retrofit = new Retrofit.Builder().baseUrl(baseURL).addConverterFactory(GsonConverterFactory.create()).client(okHttpClient).build();
         api = retrofit.create(SurveyorApi.class);

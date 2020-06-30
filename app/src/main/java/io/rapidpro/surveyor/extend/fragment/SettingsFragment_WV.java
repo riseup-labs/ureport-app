@@ -1,33 +1,27 @@
 package io.rapidpro.surveyor.extend.fragment;
 
-import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
-import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Locale;
 
 import io.rapidpro.surveyor.BuildConfig;
 import io.rapidpro.surveyor.R;
 import io.rapidpro.surveyor.SurveyorPreferences;
-import io.rapidpro.surveyor.extend.DashboardActivity;
 import io.rapidpro.surveyor.extend.SettingsActivity;
 import io.rapidpro.surveyor.extend.StaticMethods;
+import me.myatminsoe.mdetect.MDetect;
+import me.myatminsoe.mdetect.Rabbit;
 
 import static io.rapidpro.surveyor.extend.StaticMethods.AppDistribution;
-import static io.rapidpro.surveyor.extend.StaticMethods.pending_restart;
 import static io.rapidpro.surveyor.extend.StaticMethods.playNotification;
 
 public class SettingsFragment_WV extends BaseFragment {
@@ -68,9 +62,13 @@ public class SettingsFragment_WV extends BaseFragment {
         });
         webView.getSettings().setJavaScriptEnabled(true);
         webView.addJavascriptInterface(this, "SurveyorApp");
-        webView.loadUrl("file:///android_asset/pages/settings.html");
-
-
+        String WebContent = LoadData("pages/settings.html");
+        if(lang_code.equals("my") && !MDetect.INSTANCE.isUnicode() && StaticMethods.displayZawgyi()){
+            // Place Zawgyi
+            WebContent = Rabbit.uni2zg(WebContent);
+        }
+        webView.loadDataWithBaseURL("file:///android_asset/pages/settings.html", WebContent, "text/html; charset=utf-8", "UTF-8", null);
+        //webView.loadUrl("file:///android_asset/pages/settings.html");
     }
 
     void setLang_code(String lang_code){
@@ -202,5 +200,22 @@ public class SettingsFragment_WV extends BaseFragment {
                 StaticMethods.logFirebase("settings_change", logBundle);
             }
         });
+    }
+
+    public String LoadData(String inFile) {
+        String tContents = "";
+
+        try {
+            InputStream stream = getContext().getAssets().open(inFile);
+            int size = stream.available();
+            byte[] buffer = new byte[size];
+            stream.read(buffer);
+            stream.close();
+            tContents = new String(buffer);
+        } catch (IOException e) {
+            // Handle exceptions here
+        }
+
+        return tContents;
     }
 }

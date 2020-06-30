@@ -1,6 +1,5 @@
 package io.rapidpro.surveyor.extend;
 
-import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
@@ -14,7 +13,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -22,23 +20,17 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.skydoves.powermenu.PowerMenuItem;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -55,7 +47,6 @@ import io.rapidpro.surveyor.extend.util.CustomDialogInterface;
 import me.myatminsoe.mdetect.MDetect;
 import me.myatminsoe.mdetect.Rabbit;
 
-import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
 import static io.rapidpro.surveyor.extend.StaticMethods.AppDistribution;
 import static io.rapidpro.surveyor.extend.StaticMethods.getMD5;
 import static io.rapidpro.surveyor.extend.StaticMethods.playNotification;
@@ -169,10 +160,18 @@ public class StoriesActivity extends BaseActivity {
         WebContent = WebContent.replace("#DateData", storyDate.getText().toString());
         WebContent = WebContent.replace("#ImageFile", imagePath);
 
-        if(lang_code.equals("my") && !MDetect.INSTANCE.isUnicode() && !StaticMethods.disableZawgyi()){
+        if(lang_code.equals("my")){
             // Place Zawgyi
-            String burmese_title = Rabbit.uni2zg(storiesLocal.getTitle_my());
-            String burmese_body = Rabbit.uni2zg(storiesLocal.getSubtitle_my() + "<br>" +storiesLocal.getBody_my().replace("\r\n", "<br>"));
+            String burmese_title = "";
+            String burmese_body = "";
+
+            if(!MDetect.INSTANCE.isUnicode() && StaticMethods.displayZawgyi()){
+                burmese_title = Rabbit.uni2zg(storiesLocal.getTitle_my());
+                burmese_body = Rabbit.uni2zg(storiesLocal.getSubtitle_my() + "<br>" +storiesLocal.getBody_my().replace("\r\n", "<br>"));
+            }else{
+                burmese_title = storiesLocal.getTitle_my();
+                burmese_body = storiesLocal.getSubtitle_my() + "<br>" +storiesLocal.getBody_my().replace("\r\n", "<br>");
+            }
 
             WebContent = WebContent.replace("#TitleData", burmese_title);
             WebContent = WebContent.replace("#TextData", burmese_body);
@@ -185,7 +184,7 @@ public class StoriesActivity extends BaseActivity {
             String burmese_title = storiesLocal.getTitle_my();
             String burmese_body = storiesLocal.getSubtitle_my() + "<br>" +storiesLocal.getBody_my().replace("\r\n", "<br>");
 
-            if (!MDetect.INSTANCE.isUnicode() && !StaticMethods.disableZawgyi()){
+            if (!MDetect.INSTANCE.isUnicode() && StaticMethods.displayZawgyi()){
                 burmese_title = Rabbit.uni2zg(burmese_title);
                 burmese_body = Rabbit.uni2zg(burmese_body);
             }

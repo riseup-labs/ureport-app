@@ -1,7 +1,6 @@
 package io.rapidpro.surveyor.extend.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,7 +67,7 @@ public class CustomAdapterPollList extends RecyclerView.Adapter<CustomAdapterPol
 
         String custom_data = mData.get(position);
         String lang_code = SurveyorApplication.get().getPreferences().getString(SurveyorPreferences.LANG_CODE, "en");
-        if(lang_code.equals("my") && !MDetect.INSTANCE.isUnicode() && !StaticMethods.disableZawgyi()) {
+        if(lang_code.equals("my") && !MDetect.INSTANCE.isUnicode() && StaticMethods.displayZawgyi()) {
             // Place Zawgyi
             custom_data = Rabbit.uni2zg(custom_data);
         }
@@ -83,6 +82,7 @@ public class CustomAdapterPollList extends RecyclerView.Adapter<CustomAdapterPol
             }else{
                 myText = "Last updated: " + myDate + "\n" + "Pull down to refresh";
             }
+
             holder.ureportLastUpdate.setText(myText);
             holder.ureportLastUpdate.setVisibility(View.VISIBLE);
         }
