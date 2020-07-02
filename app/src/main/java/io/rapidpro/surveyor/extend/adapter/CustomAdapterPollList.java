@@ -37,6 +37,7 @@ public class CustomAdapterPollList extends RecyclerView.Adapter<CustomAdapterPol
         this.isCategory = isCategory;
         this.ColorPosition = ColorPos;
         this.context = context;
+        MDetect.INSTANCE.init(context);
     }
 
     public CustomAdapterPollList(SurveyorApplication surveyor, Context context, List<String> data, List<String> data2, List<String> data3, boolean isCategory, int ColorPos) {

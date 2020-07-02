@@ -35,6 +35,7 @@ import java.util.Locale;
 
 import io.rapidpro.surveyor.BuildConfig;
 import io.rapidpro.surveyor.R;
+import io.rapidpro.surveyor.SurveyorApplication;
 import io.rapidpro.surveyor.SurveyorIntent;
 import io.rapidpro.surveyor.SurveyorPreferences;
 import io.rapidpro.surveyor.activity.BaseActivity;
@@ -551,6 +552,47 @@ public class DashboardActivity extends BaseActivity implements CustomScrollAdapt
         colorAnim.setEvaluator(new ArgbEvaluator());
         colorAnim.setRepeatCount(0);
         colorAnim.start();
+    }
+
+    boolean lockBack = false;
+    @Override
+    public void onBackPressed() {
+
+        if(!isLoggedIn()){
+            super.onBackPressed();
+            return;
+        }
+
+        if(lockBack){return;}
+
+        final Dialog exitDialog = new Dialog(context);
+        exitDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        exitDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        exitDialog.setContentView(R.layout.v1_dialog_ui);
+        exitDialog.findViewById(R.id.textSubText).setVisibility(View.GONE);
+        ((TextView) exitDialog.findViewById(R.id.textMainText)).setText("Would you like to exit the application?");
+        ((TextView) exitDialog.findViewById(R.id.button_yes_text)).setText("Yes");
+        ((TextView) exitDialog.findViewById(R.id.button_no_text)).setText("No");
+
+        exitDialog.findViewById(R.id.button_yes).setOnClickListener(view1 -> {
+            finish();
+            exitDialog.dismiss();
+            lockBack = false;
+        });
+
+        exitDialog.findViewById(R.id.button_no).setOnClickListener(view2 -> {
+            exitDialog.dismiss();
+            lockBack = false;
+        });
+
+        exitDialog.setOnDismissListener(dialogInterface -> {
+            lockBack = false;
+        });
+
+        exitDialog.show();
+        lockBack = true;
+
+        //super.onBackPressed();
     }
 
     @Override

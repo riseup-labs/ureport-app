@@ -43,6 +43,7 @@ public class CustomAdapterStories extends RecyclerView.Adapter<CustomAdapterStor
         this.mInflater = LayoutInflater.from(context);
         this.stories = stories;
         this.lang_code = lang_code;
+        MDetect.INSTANCE.init(context);
     }
 
     @NonNull

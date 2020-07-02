@@ -44,6 +44,7 @@ public class SettingsFragment_WV extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         lang_code = getSurveyor().getPreferences().getString(SurveyorPreferences.LANG_CODE, "en");
         //setLang_code(lang_code);
+        MDetect.INSTANCE.init(getContext());
 
 
         webView = getView().findViewById(R.id.webView);

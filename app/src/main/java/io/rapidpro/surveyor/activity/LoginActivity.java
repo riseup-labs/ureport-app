@@ -4,13 +4,16 @@ import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
@@ -302,5 +305,41 @@ public class LoginActivity extends BaseActivity {
     public void onCreateAccount(View view) {
         startActivity(new Intent(this, CreateAccountActivity.class));
         finish();
+    }
+
+    boolean lockBack = false;
+    @Override
+    public void onBackPressed() {
+
+        if(lockBack){return;}
+
+        final Dialog exitDialog = new Dialog(this);
+        exitDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        exitDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        exitDialog.setContentView(R.layout.v1_dialog_ui);
+        exitDialog.findViewById(R.id.textSubText).setVisibility(View.GONE);
+        ((TextView) exitDialog.findViewById(R.id.textMainText)).setText("Would you like to exit the application?");
+        ((TextView) exitDialog.findViewById(R.id.button_yes_text)).setText("Yes");
+        ((TextView) exitDialog.findViewById(R.id.button_no_text)).setText("No");
+
+        exitDialog.findViewById(R.id.button_yes).setOnClickListener(view1 -> {
+            finish();
+            exitDialog.dismiss();
+            lockBack = false;
+        });
+
+        exitDialog.findViewById(R.id.button_no).setOnClickListener(view2 -> {
+            exitDialog.dismiss();
+            lockBack = false;
+        });
+
+        exitDialog.setOnDismissListener(dialogInterface -> {
+            lockBack = false;
+        });
+
+        exitDialog.show();
+        lockBack = true;
+
+        //super.onBackPressed();
     }
 }

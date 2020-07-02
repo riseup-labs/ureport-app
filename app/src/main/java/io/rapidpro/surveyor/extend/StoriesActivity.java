@@ -101,6 +101,8 @@ public class StoriesActivity extends BaseActivity {
         setContentView(R.layout.v1_activity_story);
         getWindow().setEnterTransition(null);
 
+        MDetect.INSTANCE.init(this);
+
         isOpen = true;
 
         // Get StoryID from Previous Request

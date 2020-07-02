@@ -52,6 +52,8 @@ public class OfflineUreportDetailsActivity extends BaseActivity {
         setContentView(R.layout.v1_activity_ureport_offline);
         getWindow().setEnterTransition(null);
 
+        MDetect.INSTANCE.init(this);
+
         isOpen = true;
 
         ObjectAnimator.ofFloat(findViewById(R.id.headerLayout), "alpha",  0, 1f).setDuration(1000).start();
