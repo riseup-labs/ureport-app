@@ -986,13 +986,8 @@ public class SplashActivity extends BaseActivity {
         }
 
         int nextTick = 0;
-
         Handler checkerHandler =  new Handler();
-        Runnable checkerRunnable = new Runnable() {
-            public void run() {
-                checkerLoop();
-            }
-        };
+        Runnable checkerRunnable = () -> checkerLoop();
 
         void checkerLoop() {
 

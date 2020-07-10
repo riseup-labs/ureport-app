@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -282,6 +283,7 @@ public class StoriesListFragment extends BaseFragment implements CustomAdapterSt
                                         try {
                                             okResponse = okHttpClient2.newCall(okRequest).execute();
                                             InputStream inputStream = okResponse.body().byteStream();
+                                            OutputStream out = new FileOutputStream(new File(file_path));
                                             try (OutputStream output = context.openFileOutput(file_path, context.MODE_PRIVATE)) {
                                                 loadCount--;
                                                 byte[] buffer = new byte[4 * 1024]; // or other buffer size
